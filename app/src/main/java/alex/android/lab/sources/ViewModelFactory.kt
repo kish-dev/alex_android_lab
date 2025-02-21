@@ -1,4 +1,4 @@
-package valentin.android.lab.sources
+package alex.android.lab.sources
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels

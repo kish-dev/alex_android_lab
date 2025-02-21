@@ -1,4 +1,4 @@
-package valentin.android.lab
+package alex.android.lab
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

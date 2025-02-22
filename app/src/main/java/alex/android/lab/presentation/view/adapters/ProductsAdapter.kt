@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 class ProductsAdapter :
     ListAdapter<ProductInListVO, ProductsViewHolder>(ProductsItemDiffCallback) {
 
-    var onProductClickListener: OnProductClickListener? = null
+    private var onProductClickListener: OnProductClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
         val binding = ProductListItemBinding.inflate(
@@ -36,6 +36,10 @@ class ProductsAdapter :
                 Log.d("LOG_TAG", "clicked to product and ${product.guid}")
             }
         }
+    }
+
+    fun setupOnProductClickListener(onProductClickListener: OnProductClickListener) {
+        this.onProductClickListener = onProductClickListener
     }
 
     interface OnProductClickListener {

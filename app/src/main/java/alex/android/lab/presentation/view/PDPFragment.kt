@@ -16,14 +16,13 @@ class PDPFragment : Fragment() {
 
     private var _binding: FragmentPdpBinding? = null
     private val binding: FragmentPdpBinding
-        get() = _binding ?: throw RuntimeException("FragmentPdpBinding == null")
+        get() = checkNotNull(_binding)
 
     private val vm: PDPViewModel by viewModelCreator {
         PDPViewModel(ServiceLocator.provideProductsInteractor())
     }
 
-    private lateinit var guid: String
-    private lateinit var product: ProductInListVO
+    private var guid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +39,10 @@ class PDPFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.getDetailProduct(guid)
+        guid?.let { vm.getDetailProduct(it) }
+            ?: throw NullPointerException("guid is null in PDPFragment")
         vm.detailProductLD.observe(this) {
-            product = it
-            setupDetailProduct()
+            setupDetailProduct(it)
         }
     }
 
@@ -52,7 +51,7 @@ class PDPFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupDetailProduct() {
+    private fun setupDetailProduct(product: ProductInListVO) {
         with(binding) {
             Glide.with(this@PDPFragment)
                 .load(product.image)

@@ -34,15 +34,18 @@ class ProductsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val adapter = ProductsAdapter()
         binding.rvProductList.adapter = adapter
+        vm.getProducts()
         vm.productLD.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        adapter.onProductClickListener = object : ProductsAdapter.OnProductClickListener {
-            override fun onProductClick(guid: String) {
-                val detailProductFragment = PDPFragment.newInstance(guid)
-                launchFragment(detailProductFragment)
+        adapter.setupOnProductClickListener(
+            object : ProductsAdapter.OnProductClickListener {
+                override fun onProductClick(guid: String) {
+                    val detailProductFragment = PDPFragment.newInstance(guid)
+                    launchFragment(detailProductFragment)
+                }
             }
-        }
+        )
     }
 
     override fun onDestroyView() {

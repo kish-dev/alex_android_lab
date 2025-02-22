@@ -7,12 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ProductsViewModel(productsInteractor: ProductsInteractor) : ViewModel() {
+class ProductsViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
 
     private val _productLD = MutableLiveData<List<ProductInListVO>>()
     val productLD: LiveData<List<ProductInListVO>> = _productLD
 
-    init {
+    fun getProducts() {
         _productLD.value = productsInteractor.getProducts().map {
             it.toVO()
         }

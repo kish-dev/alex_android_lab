@@ -1,4 +1,6 @@
-package alex.android.lab.sources
+package alex.android.lab.data.repositoriesImpl
+
+import alex.android.lab.data.dto.ProductInListDTO
 
 val productInListDTOs = listOf(
     ProductInListDTO(

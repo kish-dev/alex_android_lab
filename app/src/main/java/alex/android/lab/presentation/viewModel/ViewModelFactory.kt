@@ -1,4 +1,4 @@
-package alex.android.lab.sources
+package alex.android.lab.presentation.viewModel
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 typealias ViewModelCreator = () -> ViewModel?
 
 class ViewModelFactory(
-    private val viewModelCreator: ViewModelCreator = { null }
+    private val viewModelCreator: ViewModelCreator = { null },
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

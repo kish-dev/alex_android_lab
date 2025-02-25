@@ -1,20 +1,58 @@
 package alex.android.lab.presentation.viewModel
 
+import alex.android.lab.domain.entities.ProductsListState
 import alex.android.lab.domain.interactors.ProductsInteractor
 import alex.android.lab.presentation.viewObject.ProductInListVO
 import alex.android.lab.presentation.viewObject.toVO
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ProductsViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
 
-    private val _productLD = MutableLiveData<List<ProductInListVO>>()
-    val productLD: LiveData<List<ProductInListVO>> = _productLD
+    private val _products = MutableStateFlow<ProductsListState>(ProductsListState.Idle)
+    val products: StateFlow<ProductsListState> = _products.asStateFlow()
+
+    private val handler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        viewModelScope.launch {
+            _products.update {
+                ProductsListState.Error(throwable.message.toString())
+            }
+        }
+    }
 
     fun getProducts() {
-        _productLD.value = productsInteractor.getProducts().map {
-            it.toVO()
+        _products.update {
+            ProductsListState.Loading
         }
+        viewModelScope.launch(handler + Dispatchers.IO) {
+            productsInteractor.syncProductsWithApi()
+            val products = productsInteractor.getProducts().map {
+                it.toVO()
+            }
+            _products.update {
+                ProductsListState.Loaded(products)
+            }
+        }
+    }
+
+    fun changeViewCount(product: ProductInListVO) {
+        viewModelScope.launch(handler + Dispatchers.IO) {
+            productsInteractor.updateProductViewCount(
+                guid = product.guid,
+                viewCount = product.viewCount + COUNT_ADD_ONE
+            )
+        }
+    }
+
+    companion object {
+
+        private const val COUNT_ADD_ONE = 1
     }
 }

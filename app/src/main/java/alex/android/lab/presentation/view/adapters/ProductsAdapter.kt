@@ -2,7 +2,6 @@ package alex.android.lab.presentation.view.adapters
 
 import alex.android.lab.databinding.ProductListItemBinding
 import alex.android.lab.presentation.viewObject.ProductInListVO
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -32,8 +31,7 @@ class ProductsAdapter :
             priceTV.text = product.price
             ratingView.rating = product.rating.toFloat()
             root.setOnClickListener {
-                onProductClickListener?.onProductClick(product.guid)
-                Log.d("LOG_TAG", "clicked to product and ${product.guid}")
+                onProductClickListener?.onProductClick(product)
             }
         }
     }
@@ -43,6 +41,6 @@ class ProductsAdapter :
     }
 
     interface OnProductClickListener {
-        fun onProductClick(guid: String)
+        fun onProductClick(product: ProductInListVO)
     }
 }

@@ -19,7 +19,8 @@
             android:layout_height="84dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/test_image_pdp_header" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nameTV"

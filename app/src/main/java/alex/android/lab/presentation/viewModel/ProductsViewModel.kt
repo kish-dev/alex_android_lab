@@ -1,6 +1,6 @@
 package alex.android.lab.presentation.viewModel
 
-import alex.android.lab.domain.entities.ProductsListState
+import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.domain.interactors.ProductsInteractor
 import alex.android.lab.presentation.viewObject.ProductInListVO
 import alex.android.lab.presentation.viewObject.toVO
@@ -16,20 +16,21 @@ import kotlinx.coroutines.launch
 
 class ProductsViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
 
-    private val _products = MutableStateFlow<ProductsListState>(ProductsListState.Idle)
-    val products: StateFlow<ProductsListState> = _products.asStateFlow()
+    private val _products =
+        MutableStateFlow<ProductState<List<ProductInListVO>>>(ProductState.Idle())
+    val products: StateFlow<ProductState<List<ProductInListVO>>> = _products.asStateFlow()
 
     private val handler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch {
             _products.update {
-                ProductsListState.Error(throwable.message.toString())
+                ProductState.Error(throwable.message.toString())
             }
         }
     }
 
     fun getProducts() {
         _products.update {
-            ProductsListState.Loading
+            ProductState.Loading()
         }
         viewModelScope.launch(handler + Dispatchers.IO) {
             productsInteractor.syncProductsWithApi()
@@ -37,7 +38,7 @@ class ProductsViewModel(private val productsInteractor: ProductsInteractor) : Vi
                 it.toVO()
             }
             _products.update {
-                ProductsListState.Loaded(products)
+                ProductState.Loaded(products)
             }
         }
     }

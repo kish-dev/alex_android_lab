@@ -3,7 +3,7 @@ package alex.android.lab.presentation.view
 import alex.android.lab.R
 import alex.android.lab.data.di.ServiceLocator
 import alex.android.lab.databinding.FragmentProductsBinding
-import alex.android.lab.domain.entities.ProductsListState
+import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.presentation.view.adapters.ProductsAdapter
 import alex.android.lab.presentation.viewModel.ProductsViewModel
 import alex.android.lab.presentation.viewModel.viewModelCreator
@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -40,12 +39,16 @@ class ProductsFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = ProductsAdapter()
-        binding.rvProductList.adapter = adapter
+        with(binding) {
+            rvProductList.adapter = adapter
+            swipeRefresh.setOnRefreshListener {
+                viewModel.getProducts()
+            }
+        }
         setupOnProductClickListener(adapter)
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -54,27 +57,31 @@ class ProductsFragment : Fragment() {
 
                 viewModel.products.collect { productState ->
                     when (productState) {
-                        ProductsListState.Idle -> {}
+                        is ProductState.Idle -> {}
 
-                        ProductsListState.Loading -> {
+                        is ProductState.Loading -> {
                             binding.progressBarProductList.isVisible = true
                         }
 
-                        is ProductsListState.Loaded -> {
-                            binding.progressBarProductList.isVisible = false
-                            adapter.submitList(productState.products)
+                        is ProductState.Loaded -> {
+                            with(binding) {
+                                progressBarProductList.isVisible = false
+                                swipeRefresh.isRefreshing = false
+                            }
+                            adapter.submitList(productState.data)
                         }
 
-                        is ProductsListState.Error -> {
-                            binding.progressBarProductList.isVisible = false
+                        is ProductState.Error -> {
+                            with(binding) {
+                                progressBarProductList.isVisible = false
+                                swipeRefresh.isRefreshing = false
+                            }
                             val toastText = productState.error
                             showToast(toastText)
-                            delay(TIMEOUT_RETRY_MILLIS).also {
-                                viewModel.getProducts()
-                            }
                         }
                     }
                 }
+
             }
         }
     }

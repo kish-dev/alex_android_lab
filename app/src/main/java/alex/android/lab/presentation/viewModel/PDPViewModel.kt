@@ -1,6 +1,6 @@
 package alex.android.lab.presentation.viewModel
 
-import alex.android.lab.domain.entities.ProductDetailState
+import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.domain.interactors.ProductsInteractor
 import alex.android.lab.presentation.viewObject.ProductInListVO
 import alex.android.lab.presentation.viewObject.toVO
@@ -16,23 +16,27 @@ import kotlinx.coroutines.launch
 
 class PDPViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
 
-    private val _detailProduct = MutableStateFlow<ProductDetailState>(ProductDetailState.Idle)
-    val detailProduct: StateFlow<ProductDetailState> = _detailProduct.asStateFlow()
+    private val _detailProduct =
+        MutableStateFlow<ProductState<ProductInListVO>>(ProductState.Idle())
+    val detailProduct: StateFlow<ProductState<ProductInListVO>> = _detailProduct.asStateFlow()
 
     private val handler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _detailProduct.update {
-            ProductDetailState.Error(throwable.message.toString())
+            ProductState.Error(throwable.message.toString())
         }
     }
 
-    fun getDetailProduct(guid: String) {
+    fun getDetailProduct(guid: String?) {
         _detailProduct.update {
-            ProductDetailState.Loading
+            ProductState.Loading()
         }
         viewModelScope.launch(handler + Dispatchers.IO) {
+            if (guid == null) {
+                throw NullPointerException("guid is null for DB search")
+            }
             val product = productsInteractor.getProductById(guid).toVO()
             _detailProduct.update {
-                ProductDetailState.Loaded(product)
+                ProductState.Loaded(product)
             }
         }
     }

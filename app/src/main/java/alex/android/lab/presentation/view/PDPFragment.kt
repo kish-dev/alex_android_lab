@@ -3,7 +3,7 @@ package alex.android.lab.presentation.view
 import alex.android.lab.R
 import alex.android.lab.data.di.ServiceLocator
 import alex.android.lab.databinding.FragmentPdpBinding
-import alex.android.lab.domain.entities.ProductDetailState
+import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.presentation.viewModel.PDPViewModel
 import alex.android.lab.presentation.viewModel.viewModelCreator
 import alex.android.lab.presentation.viewObject.ProductInListVO
@@ -49,28 +49,27 @@ class PDPFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
 
-            guid?.let { viewModel.getDetailProduct(it) }
-                ?: throw NullPointerException("guid is null in PDPFragment")
+            guid.let { viewModel.getDetailProduct(it) }
 
             viewModel.detailProduct.collect { productState ->
                 when (productState) {
 
-                    ProductDetailState.Idle -> {}
+                    is ProductState.Idle -> {}
 
-                    ProductDetailState.Loading -> {
+                    is ProductState.Loading -> {
                         binding.progressBarProduct.isVisible = true
                     }
 
-                    is ProductDetailState.Loaded -> {
+                    is ProductState.Loaded -> {
                         binding.progressBarProduct.isVisible = false
-                        val product = productState.product
+                        val product = productState.data
                         setupDetailProduct(product)
                         setupOnFavouriteClickListener(product)
                     }
 
-                    is ProductDetailState.Error -> {
+                    is ProductState.Error -> {
                         binding.progressBarProduct.isVisible = false
-                        val toastText = " Error in PDPFragment: ${productState.error}"
+                        val toastText = productState.error
                         showToast(toastText)
                     }
                 }

@@ -4,6 +4,7 @@ import alex.android.lab.data.di.ServiceLocator
 import alex.android.lab.domain.entities.Product
 import alex.android.lab.domain.repositories.ProductsRepository
 import android.content.Context
+import kotlinx.coroutines.delay
 import java.net.UnknownHostException
 
 class MockProductsRepositoryImpl(private val context: Context) : ProductsRepository {
@@ -14,7 +15,7 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
     private val connectionManager = ServiceLocator.provideConnectionManager(context)
 
     override suspend fun syncProductsWithApi() {
-        if (!connectionManager.isNetworkAvailable()) {
+        if (!checkInternetConnection()) {
             throw UnknownHostException("Please check your internet connection!")
         }
         val dtoProductsList = apiService.getProductsList()
@@ -29,6 +30,16 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
             }
             db.addProduct(newProduct)
         }
+    }
+
+    override suspend fun checkInternetConnection(): Boolean {
+        for (attempt in 1..3) {
+            if (connectionManager.isNetworkAvailable()) {
+                return true
+            }
+            delay(5000)
+        }
+        return false
     }
 
     override suspend fun getProducts(): List<Product> {

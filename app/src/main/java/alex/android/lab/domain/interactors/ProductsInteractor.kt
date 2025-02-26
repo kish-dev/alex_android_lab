@@ -6,6 +6,8 @@ interface ProductsInteractor {
 
     suspend fun syncProductsWithApi()
 
+    suspend fun checkInternetConnection(): Boolean
+
     suspend fun getProducts(): List<Product>
 
     suspend fun getProductById(guid: String): Product

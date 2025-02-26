@@ -11,6 +11,10 @@ class ProductsInteractorImpl(private val productsRepository: ProductsRepository)
         return productsRepository.syncProductsWithApi()
     }
 
+    override suspend fun checkInternetConnection(): Boolean {
+        return productsRepository.checkInternetConnection()
+    }
+
     override suspend fun getProducts(): List<Product> {
         return productsRepository.getProducts()
     }

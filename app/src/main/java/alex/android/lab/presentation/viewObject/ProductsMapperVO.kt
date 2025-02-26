@@ -10,6 +10,7 @@ fun Product.toVO(): ProductInListVO {
         "$price ₽",
         rating,
         isFavorite,
-        isInCart
+        isInCart,
+        viewCount
     )
 }

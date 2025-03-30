@@ -23,6 +23,15 @@ class ProductsAdapter :
 
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
         val product = getItem(position)
+        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+
+        if (position == currentList.size - 1) {
+            params.bottomMargin = 50  // 50px (можно перевести в dp)
+        } else {
+            params.bottomMargin = 0
+        }
+        holder.itemView.layoutParams = params
+
         with(holder.binding) {
             Glide.with(holder.itemView)
                 .load(product.image)

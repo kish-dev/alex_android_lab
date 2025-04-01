@@ -19,6 +19,10 @@ class ProductsInteractorImpl(private val productsRepository: ProductsRepository)
         return productsRepository.getProducts()
     }
 
+    override suspend fun getProductsInCart(): List<Product> {
+        return productsRepository.getProductsInCart()
+    }
+
     override suspend fun getProductById(guid: String): Product {
         return productsRepository.getProductById(guid)
     }

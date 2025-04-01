@@ -15,7 +15,10 @@ interface ProductsDao {
     @Query("SELECT * FROM all_products_list")
     suspend fun getProducts(): List<ProductDbModel>
 
-    @Query("SELECT * FROM all_products_list WHERE guid == :guid LIMIT 1")
+    @Query("SELECT * FROM all_products_list WHERE isInCart = 1")
+    suspend fun getProductsInCart(): List<ProductDbModel>
+
+    @Query("SELECT * FROM all_products_list WHERE guid = :guid LIMIT 1")
     suspend fun getProductById(guid: String): ProductDbModel?
 
     @Query("UPDATE all_products_list SET viewCount = :newViewCount WHERE guid = :guid")

@@ -10,6 +10,8 @@ interface ProductsInteractor {
 
     suspend fun getProducts(): List<Product>
 
+    suspend fun getProductsInCart(): List<Product>
+
     suspend fun getProductById(guid: String): Product
 
     suspend fun updateProductViewCount(guid: String, viewCount: Int)

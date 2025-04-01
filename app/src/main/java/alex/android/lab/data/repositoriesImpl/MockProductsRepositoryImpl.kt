@@ -47,6 +47,11 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
         return productList
     }
 
+    override suspend fun getProductsInCart(): List<Product> {
+        val productsListInCart = db.getProductsInCart().map { mapper.mapDbModelToEntity(it) }
+        return productsListInCart
+    }
+
     override suspend fun getProductById(guid: String): Product {
         val dbModel = checkNotNull(db.getProductById(guid))
         return mapper.mapDbModelToEntity(dbModel)

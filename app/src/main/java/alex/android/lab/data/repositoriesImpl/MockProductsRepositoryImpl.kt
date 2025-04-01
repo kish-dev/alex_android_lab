@@ -60,6 +60,10 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
         db.updateProductInCartStatus(guid, isInCart)
     }
 
+    override suspend fun updateProductInCartCount(guid: String, inCartCount: Int) {
+        db.updateProductInCartCount(guid, inCartCount)
+    }
+
     override suspend fun updateProductFavoriteStatus(guid: String, isFavorite: Boolean) {
         db.updateProductFavoriteStatus(guid, isFavorite)
     }

@@ -16,5 +16,7 @@ interface ProductsInteractor {
 
     suspend fun updateProductInCartStatus(guid: String, isInCart: Boolean)
 
+    suspend fun updateProductInCartCount(guid: String, inCartCount: Int)
+
     suspend fun updateProductFavoriteStatus(guid: String, isFavorite: Boolean)
 }

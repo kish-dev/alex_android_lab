@@ -24,6 +24,9 @@ interface ProductsDao {
     @Query("UPDATE all_products_list SET isInCart = :isInCart WHERE guid = :guid")
     suspend fun updateProductInCartStatus(guid: String, isInCart: Boolean)
 
+    @Query("UPDATE all_products_list SET inCartCount = :inCartCount WHERE guid = :guid")
+    suspend fun updateProductInCartCount(guid: String, inCartCount: Int)
+
     @Query("UPDATE all_products_list SET isFavorite = :isFavorite WHERE guid = :guid")
     suspend fun updateProductFavoriteStatus(guid: String, isFavorite: Boolean)
 }

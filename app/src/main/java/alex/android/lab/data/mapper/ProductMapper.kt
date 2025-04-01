@@ -17,6 +17,7 @@ class ProductMapper {
             rating = newDtoProduct.rating,
             isFavorite = newDtoProduct.isFavorite,
             isInCart = newDtoProduct.isInCart,
+            inCartCount = 0,
             viewCount = 0
         )
     }
@@ -33,6 +34,7 @@ class ProductMapper {
             rating = newDtoProduct.rating,
             isFavorite = currentDbProduct.isFavorite,
             isInCart = currentDbProduct.isInCart,
+            inCartCount = currentDbProduct.inCartCount,
             viewCount = currentDbProduct.viewCount
         )
     }
@@ -46,6 +48,7 @@ class ProductMapper {
             rating = dbModel.rating,
             isFavorite = dbModel.isFavorite,
             isInCart = dbModel.isInCart,
+            inCartCount = dbModel.inCartCount,
             viewCount = dbModel.viewCount
         )
 }

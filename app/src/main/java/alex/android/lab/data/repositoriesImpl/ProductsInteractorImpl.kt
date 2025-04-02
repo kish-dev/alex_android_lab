@@ -31,10 +31,6 @@ class ProductsInteractorImpl(private val productsRepository: ProductsRepository)
         return productsRepository.updateProductViewCount(guid, viewCount)
     }
 
-    override suspend fun updateProductInCartStatus(guid: String, isInCart: Boolean) {
-        return productsRepository.updateProductInCartStatus(guid, isInCart)
-    }
-
     override suspend fun updateProductInCartCount(guid: String, inCartCount: Int) {
         return productsRepository.updateProductInCartCount(guid, inCartCount)
     }

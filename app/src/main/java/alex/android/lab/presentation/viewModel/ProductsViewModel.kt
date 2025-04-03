@@ -52,6 +52,15 @@ class ProductsViewModel(private val productsInteractor: ProductsInteractor) : Vi
         }
     }
 
+    fun changeInCartCount(guid: String, inCartCount: Int) {
+        viewModelScope.launch(handler + Dispatchers.IO) {
+            productsInteractor.updateProductInCartCount(
+                guid = guid,
+                inCartCount = inCartCount
+            )
+        }
+    }
+
     companion object {
 
         private const val COUNT_ADD_ONE = 1

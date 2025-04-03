@@ -2,10 +2,10 @@ package alex.android.lab.presentation.view
 
 import alex.android.lab.R
 import alex.android.lab.data.di.ServiceLocator
-import alex.android.lab.databinding.FragmentProductsBinding
+import alex.android.lab.databinding.FragmentShoppingCartBinding
 import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.presentation.view.adapters.ProductsAdapter
-import alex.android.lab.presentation.viewModel.ProductsViewModel
+import alex.android.lab.presentation.viewModel.ShoppingCartViewModel
 import alex.android.lab.presentation.viewModel.viewModelCreator
 import alex.android.lab.presentation.viewObject.ProductInListVO
 import android.os.Bundle
@@ -21,21 +21,21 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ProductsFragment : Fragment() {
+class ShoppingCartFragment : Fragment() {
 
-    private var _binding: FragmentProductsBinding? = null
-    private val binding: FragmentProductsBinding
-        get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding == null")
+    private var _binding: FragmentShoppingCartBinding? = null
+    private val binding: FragmentShoppingCartBinding
+        get() = _binding ?: throw RuntimeException("FragmentShoppingCartBinding == null")
 
-    private val viewModel: ProductsViewModel by viewModelCreator {
-        ProductsViewModel(ServiceLocator.provideProductsInteractor(requireContext().applicationContext))
+    private val viewModel: ShoppingCartViewModel by viewModelCreator {
+        ShoppingCartViewModel(ServiceLocator.provideProductsInteractor(requireContext().applicationContext))
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentProductsBinding.inflate(inflater, container, false)
+        _binding = FragmentShoppingCartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,7 +51,6 @@ class ProductsFragment : Fragment() {
         }
         setupOnProductClickListener(adapter)
         setupUpdateProductInCartCount(adapter)
-        setupOnShoppingCartClickListener()
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -120,15 +119,7 @@ class ProductsFragment : Fragment() {
         )
     }
 
-    private fun setupOnShoppingCartClickListener() {
-        binding.shoppingCartFAB.setOnClickListener {
-            val shoppingCartFragment = ShoppingCartFragment.newInstance()
-            launchFragment(shoppingCartFragment)
-        }
-    }
-
     private fun launchFragment(fragment: Fragment) {
-        parentFragmentManager.popBackStack()
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .addToBackStack(null)
@@ -138,5 +129,12 @@ class ProductsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance() =
+            ShoppingCartFragment()
     }
 }

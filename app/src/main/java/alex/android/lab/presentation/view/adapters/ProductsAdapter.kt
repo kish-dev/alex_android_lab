@@ -11,6 +11,7 @@ class ProductsAdapter :
     ListAdapter<ProductInListVO, ProductsViewHolder>(ProductsItemDiffCallback) {
 
     private var onProductClickListener: OnProductClickListener? = null
+    private var updateProductInCartCount: UpdateProductInCartCount? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
         val binding = ProductListItemBinding.inflate(
@@ -23,8 +24,8 @@ class ProductsAdapter :
 
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
         val product = getItem(position)
-        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
 
+        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         if (position == currentList.size - 1) {
             params.bottomMargin = 50  // 50px (можно перевести в dp)
         } else {
@@ -42,6 +43,10 @@ class ProductsAdapter :
             root.setOnClickListener {
                 onProductClickListener?.onProductClick(product)
             }
+            cartButton.setProductInCartData(product.inCartCount, product.isInCart)
+            cartButton.updateProductInCartCount = { inCartCount ->
+                updateProductInCartCount?.updateProductInCart(product.guid, inCartCount)
+            }
         }
     }
 
@@ -49,7 +54,15 @@ class ProductsAdapter :
         this.onProductClickListener = onProductClickListener
     }
 
+    fun setupUpdateProductInCartCount(updateProductInCartCount: UpdateProductInCartCount) {
+        this.updateProductInCartCount = updateProductInCartCount
+    }
+
     interface OnProductClickListener {
         fun onProductClick(product: ProductInListVO)
+    }
+
+    interface UpdateProductInCartCount {
+        fun updateProductInCart(guid: String, inCartCount: Int)
     }
 }

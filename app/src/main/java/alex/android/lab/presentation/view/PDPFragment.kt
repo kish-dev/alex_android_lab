@@ -65,6 +65,7 @@ class PDPFragment : Fragment() {
                         val product = productState.data
                         setupDetailProduct(product)
                         setupOnFavouriteClickListener(product)
+                        setupUpdateProductInCartCount(product)
                     }
 
                     is ProductState.Error -> {
@@ -112,6 +113,7 @@ class PDPFragment : Fragment() {
             }
             val favouriteIcon = ContextCompat.getDrawable(requireContext(), favouriteResId)
             icFavouriteIV.setImageDrawable(favouriteIcon)
+            cartButton.setProductInCartData(product.inCartCount, product.isInCart)
         }
     }
 
@@ -121,6 +123,12 @@ class PDPFragment : Fragment() {
             throw RuntimeException("Param ARG_PRODUCT_ID is absent")
         }
         guid = args.getString(ARG_PRODUCT_ID, ARG_EMPTY_SYMBOL)
+    }
+
+    private fun setupUpdateProductInCartCount(product: ProductInListVO) {
+        binding.cartButton.updateProductInCartCount = { inCartCount ->
+            viewModel.changeInCartCount(product.guid, inCartCount)
+        }
     }
 
     override fun onDestroyView() {

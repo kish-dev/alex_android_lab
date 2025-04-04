@@ -43,7 +43,7 @@ class ProductsAdapter :
             root.setOnClickListener {
                 onProductClickListener?.onProductClick(product)
             }
-            cartButton.setProductInCartData(product.inCartCount, product.isInCart)
+            cartButton.setState(product.inCartCount)
             cartButton.updateProductInCartCount = { inCartCount ->
                 updateProductInCartCount?.updateProductInCart(product.guid, inCartCount)
             }

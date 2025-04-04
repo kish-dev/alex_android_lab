@@ -113,7 +113,7 @@ class PDPFragment : Fragment() {
             }
             val favouriteIcon = ContextCompat.getDrawable(requireContext(), favouriteResId)
             icFavouriteIV.setImageDrawable(favouriteIcon)
-            cartButton.setProductInCartData(product.inCartCount, product.isInCart)
+            cartButton.setState(product.inCartCount)
         }
     }
 

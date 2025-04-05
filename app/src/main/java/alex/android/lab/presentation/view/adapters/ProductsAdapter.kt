@@ -2,6 +2,7 @@ package alex.android.lab.presentation.view.adapters
 
 import alex.android.lab.databinding.ProductListItemBinding
 import alex.android.lab.presentation.viewObject.ProductInListVO
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -46,6 +47,24 @@ class ProductsAdapter :
             cartButton.setState(product.inCartCount)
             cartButton.updateProductInCartCount = { inCartCount ->
                 updateProductInCartCount?.updateProductInCart(product.guid, inCartCount)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: ProductsViewHolder,
+        position: Int,
+        payloads: MutableList<Any>,
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val bundle = payloads[0] as? Bundle
+            bundle?.let {
+                if (it.containsKey(ProductsItemDiffCallback.KEY_IN_CART_COUNT)) {
+                    val inCartCount = it.getInt(ProductsItemDiffCallback.KEY_IN_CART_COUNT)
+                    holder.updateInCartCount(inCartCount)
+                }
             }
         }
     }

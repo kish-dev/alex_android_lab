@@ -1,5 +1,6 @@
 package alex.android.lab.data.local.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -13,5 +14,7 @@ data class ProductDbModel(
     val rating: Double,
     val isFavorite: Boolean,
     val isInCart: Boolean,
+    @ColumnInfo(defaultValue = "0")
+    val inCartCount: Int,
     val viewCount: Int,
 )

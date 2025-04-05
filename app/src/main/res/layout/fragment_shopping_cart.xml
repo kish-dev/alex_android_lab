@@ -16,7 +16,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/shoppingCartFAB"
+            app:layout_constraintBottom_toTopOf="@+id/checkoutButton"
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".presentation.view.ProductsFragment"
             tools:listitem="@layout/product_list_item" />
@@ -31,13 +31,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/shoppingCartFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/checkoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_shopping_cart"
+            android:text="Оформить заказ"
+            android:textAllCaps="true"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_shopping_cart"
+            app:iconGravity="textEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

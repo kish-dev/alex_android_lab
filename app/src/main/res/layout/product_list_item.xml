@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/productIV"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,6 +59,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/productIV"
             app:layout_constraintTop_toBottomOf="@id/priceTV" />
+
+        <alex.android.lab.presentation.view.CartButtonView
+            android:id="@+id/cartButton"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="64dp"
+            app:layout_constraintBottom_toBottomOf="@id/ratingView"
+            app:layout_constraintEnd_toEndOf="@id/nameTV"
+            app:layout_constraintStart_toEndOf="@id/ratingView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

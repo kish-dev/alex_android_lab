@@ -14,40 +14,41 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PDPViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
+class ShoppingCartViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
 
-    private val _detailProduct =
-        MutableStateFlow<ProductState<ProductInListVO>>(ProductState.Idle())
-    val detailProduct: StateFlow<ProductState<ProductInListVO>> = _detailProduct.asStateFlow()
+    private val _products =
+        MutableStateFlow<ProductState<List<ProductInListVO>>>(ProductState.Idle())
+    val products: StateFlow<ProductState<List<ProductInListVO>>> = _products.asStateFlow()
 
     private val handler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _detailProduct.update {
-            ProductState.Error(throwable.message.toString())
+        viewModelScope.launch {
+            _products.update {
+                ProductState.Error(throwable.message.toString())
+            }
         }
     }
 
-    fun getDetailProduct(guid: String?) {
-        _detailProduct.update {
+    fun getProducts() {
+        _products.update {
             ProductState.Loading()
         }
         viewModelScope.launch(handler + Dispatchers.IO) {
-            if (guid == null) {
-                throw NullPointerException("guid is null for DB search")
+            productsInteractor.syncProductsWithApi()
+            val products = productsInteractor.getProductsInCart().map {
+                it.toVO()
             }
-            val product = productsInteractor.getProductById(guid).toVO()
-            _detailProduct.update {
-                ProductState.Loaded(product)
+            _products.update {
+                ProductState.Loaded(products)
             }
         }
     }
 
-    fun changeFavouriteStatus(product: ProductInListVO) {
+    fun changeViewCount(product: ProductInListVO) {
         viewModelScope.launch(handler + Dispatchers.IO) {
-            productsInteractor.updateProductFavoriteStatus(
+            productsInteractor.updateProductViewCount(
                 guid = product.guid,
-                isFavorite = !product.isFavorite
+                viewCount = product.viewCount + COUNT_ADD_ONE
             )
-            getDetailProduct(product.guid)
         }
     }
 
@@ -58,5 +59,10 @@ class PDPViewModel(private val productsInteractor: ProductsInteractor) : ViewMod
                 inCartCount = inCartCount
             )
         }
+    }
+
+    companion object {
+
+        private const val COUNT_ADD_ONE = 1
     }
 }

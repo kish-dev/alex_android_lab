@@ -8,5 +8,6 @@ data class Product(
     val rating: Double,
     val isFavorite: Boolean,
     val isInCart: Boolean,
+    val inCartCount: Int,
     val viewCount: Int,
 )

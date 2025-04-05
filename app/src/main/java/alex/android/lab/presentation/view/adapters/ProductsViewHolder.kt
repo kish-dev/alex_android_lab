@@ -4,4 +4,9 @@ import alex.android.lab.databinding.ProductListItemBinding
 import androidx.recyclerview.widget.RecyclerView
 
 class ProductsViewHolder(val binding: ProductListItemBinding) :
-    RecyclerView.ViewHolder(binding.root)
+    RecyclerView.ViewHolder(binding.root) {
+
+    fun updateInCartCount(inCartCount: Int) {
+        binding.cartButton.setState(inCartCount)
+    }
+}

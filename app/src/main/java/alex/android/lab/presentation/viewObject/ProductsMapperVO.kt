@@ -11,6 +11,7 @@ fun Product.toVO(): ProductInListVO {
         rating,
         isFavorite,
         isInCart,
+        inCartCount,
         viewCount
     )
 }

@@ -37,7 +37,7 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
             if (connectionManager.isNetworkAvailable()) {
                 return true
             }
-            delay(5000)
+            delay(TIMEOUT_RETRY_MILLIS)
         }
         return false
     }
@@ -45,6 +45,11 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
     override suspend fun getProducts(): List<Product> {
         val productList = db.getProducts().map { mapper.mapDbModelToEntity(it) }
         return productList
+    }
+
+    override suspend fun getProductsInCart(): List<Product> {
+        val productsListInCart = db.getProductsInCart().map { mapper.mapDbModelToEntity(it) }
+        return productsListInCart
     }
 
     override suspend fun getProductById(guid: String): Product {
@@ -56,11 +61,22 @@ class MockProductsRepositoryImpl(private val context: Context) : ProductsReposit
         db.updateProductViewCount(guid, viewCount)
     }
 
-    override suspend fun updateProductInCartStatus(guid: String, isInCart: Boolean) {
-        db.updateProductInCartStatus(guid, isInCart)
+    override suspend fun updateProductInCartCount(guid: String, inCartCount: Int) {
+        db.updateProductInCartCount(guid, inCartCount)
+        if (inCartCount == 0) {
+            db.updateProductInCartStatus(guid, isInCart = false)
+        } else {
+            db.updateProductInCartStatus(guid, isInCart = true)
+        }
     }
 
     override suspend fun updateProductFavoriteStatus(guid: String, isFavorite: Boolean) {
         db.updateProductFavoriteStatus(guid, isFavorite)
+    }
+
+
+    companion object {
+
+        private const val TIMEOUT_RETRY_MILLIS = 5000L
     }
 }

@@ -103,7 +103,7 @@ class PDPFragment : Fragment() {
             priceTV.text = product.price
             ratingView.rating = product.rating.toFloat()
             ratingView.isVisible = true
-            viewCountTV.text = product.viewCount.toString()
+            viewCountTV.text = String.format(product.viewCount.toString())
             icEyeIV.isVisible = true
 
             val favouriteResId = if (product.isFavorite) {

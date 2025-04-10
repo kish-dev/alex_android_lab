@@ -3,8 +3,9 @@ package alex.android.lab.data.mapper
 import alex.android.lab.data.dto.ProductInListDTO
 import alex.android.lab.data.local.model.ProductDbModel
 import alex.android.lab.domain.entities.Product
+import javax.inject.Inject
 
-class ProductMapper {
+class ProductMapper @Inject constructor() {
 
     fun mapDtoToNewDbModel(
         newDtoProduct: ProductInListDTO,

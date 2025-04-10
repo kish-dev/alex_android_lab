@@ -1,18 +1,21 @@
 package alex.android.lab.data.repositoriesImpl
 
-import alex.android.lab.data.di.ServiceLocator
+import alex.android.lab.data.local.db.ProductsDao
+import alex.android.lab.data.mapper.ProductMapper
+import alex.android.lab.data.network.ApiService
+import alex.android.lab.data.network.ConnectionManager
 import alex.android.lab.domain.entities.Product
 import alex.android.lab.domain.repositories.ProductsRepository
-import android.content.Context
 import kotlinx.coroutines.delay
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class MockProductsRepositoryImpl(private val context: Context) : ProductsRepository {
-
-    private val apiService = ServiceLocator.provideApiService()
-    private val db = ServiceLocator.provideProductsDatabase(context)
-    private val mapper = ServiceLocator.provideProductMapper()
-    private val connectionManager = ServiceLocator.provideConnectionManager(context)
+class MockProductsRepositoryImpl @Inject constructor(
+    private val connectionManager: ConnectionManager,
+    private val mapper: ProductMapper,
+    private val db: ProductsDao,
+    private val apiService: ApiService,
+) : ProductsRepository {
 
     override suspend fun syncProductsWithApi() {
         if (!checkInternetConnection()) {

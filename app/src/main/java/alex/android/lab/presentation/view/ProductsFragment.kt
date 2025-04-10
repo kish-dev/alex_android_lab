@@ -1,13 +1,15 @@
 package alex.android.lab.presentation.view
 
+import alex.android.lab.LabApplication
 import alex.android.lab.R
-import alex.android.lab.data.di.ServiceLocator
 import alex.android.lab.databinding.FragmentProductsBinding
+import alex.android.lab.di.components.DaggerProductsFragmentComponent
 import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.presentation.view.adapters.ProductsAdapter
 import alex.android.lab.presentation.viewModel.ProductsViewModel
-import alex.android.lab.presentation.viewModel.viewModelCreator
+import alex.android.lab.presentation.viewModel.ViewModelFactory
 import alex.android.lab.presentation.viewObject.ProductInListVO
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +18,11 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ProductsFragment : Fragment() {
 
@@ -27,8 +30,20 @@ class ProductsFragment : Fragment() {
     private val binding: FragmentProductsBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding == null")
 
-    private val viewModel: ProductsViewModel by viewModelCreator {
-        ProductsViewModel(ServiceLocator.provideProductsInteractor(requireContext().applicationContext))
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        DaggerProductsFragmentComponent.factory().create(
+            (requireActivity().application as LabApplication).component
+        )
+    }
+
+    private lateinit var viewModel: ProductsViewModel
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -42,6 +57,8 @@ class ProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this, viewModelFactory)[ProductsViewModel::class.java]
+
         val adapter = ProductsAdapter()
         with(binding) {
             rvProductList.adapter = adapter
@@ -52,6 +69,9 @@ class ProductsFragment : Fragment() {
         setupOnProductClickListener(adapter)
         setupUpdateProductInCartCount(adapter)
         setupOnShoppingCartClickListener()
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[ProductsViewModel::class.java]
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

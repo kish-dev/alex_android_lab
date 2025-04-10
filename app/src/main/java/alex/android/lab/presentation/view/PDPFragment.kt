@@ -1,12 +1,14 @@
 package alex.android.lab.presentation.view
 
+import alex.android.lab.LabApplication
 import alex.android.lab.R
-import alex.android.lab.data.di.ServiceLocator
 import alex.android.lab.databinding.FragmentPdpBinding
+import alex.android.lab.di.components.DaggerPDPFragmentComponent
 import alex.android.lab.domain.entities.ProductState
 import alex.android.lab.presentation.viewModel.PDPViewModel
-import alex.android.lab.presentation.viewModel.viewModelCreator
+import alex.android.lab.presentation.viewModel.ViewModelFactory
 import alex.android.lab.presentation.viewObject.ProductInListVO
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +17,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class PDPFragment : Fragment() {
 
@@ -26,11 +29,23 @@ class PDPFragment : Fragment() {
     private val binding: FragmentPdpBinding
         get() = checkNotNull(_binding)
 
-    private val viewModel: PDPViewModel by viewModelCreator {
-        PDPViewModel(ServiceLocator.provideProductsInteractor(requireContext().applicationContext))
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        DaggerPDPFragmentComponent.factory().create(
+            (requireActivity().application as LabApplication).component
+        )
     }
 
+    private lateinit var viewModel: PDPViewModel
+
     private var guid: String? = null
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +62,9 @@ class PDPFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[PDPViewModel::class.java]
+
         viewLifecycleOwner.lifecycleScope.launch {
 
             guid.let { viewModel.getDetailProduct(it) }

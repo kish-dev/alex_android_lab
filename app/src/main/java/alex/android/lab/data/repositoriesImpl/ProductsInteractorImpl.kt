@@ -3,9 +3,11 @@ package alex.android.lab.data.repositoriesImpl
 import alex.android.lab.domain.entities.Product
 import alex.android.lab.domain.interactors.ProductsInteractor
 import alex.android.lab.domain.repositories.ProductsRepository
+import javax.inject.Inject
 
-class ProductsInteractorImpl(private val productsRepository: ProductsRepository) :
-    ProductsInteractor {
+class ProductsInteractorImpl @Inject constructor(
+    private val productsRepository: ProductsRepository,
+) : ProductsInteractor {
 
     override suspend fun syncProductsWithApi() {
         return productsRepository.syncProductsWithApi()

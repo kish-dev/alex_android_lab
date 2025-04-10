@@ -13,8 +13,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PDPViewModel(private val productsInteractor: ProductsInteractor) : ViewModel() {
+class PDPViewModel @Inject constructor(
+    private val productsInteractor: ProductsInteractor,
+) : ViewModel() {
 
     private val _detailProduct =
         MutableStateFlow<ProductState<ProductInListVO>>(ProductState.Idle())

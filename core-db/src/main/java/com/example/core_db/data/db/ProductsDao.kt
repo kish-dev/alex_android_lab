@@ -1,6 +1,6 @@
-package alex.android.lab.data.local.db
+package com.example.core_db.data.db
 
-import alex.android.lab.data.local.model.ProductDbModel
+import com.example.core_db.data.model.ProductDbModel
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

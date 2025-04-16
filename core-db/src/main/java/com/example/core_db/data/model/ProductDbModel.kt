@@ -1,4 +1,4 @@
-package alex.android.lab.data.local.model
+package com.example.core_db.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

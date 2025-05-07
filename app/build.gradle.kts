@@ -47,6 +47,24 @@ ksp {
 }
 
 dependencies {
+    implementation(project(":module-injector"))
+    implementation(project(":core-navigation"))
+    implementation(project(":core-navigation-api"))
+
+    implementation(project(":core-db"))
+    implementation(project(":core-db-api"))
+
+    implementation(project(":core-network"))
+    implementation(project(":core-network-api"))
+
+    implementation(project(":feature-products"))
+    implementation(project(":feature-products-api"))
+    implementation(project(":feature-pdp"))
+    implementation(project(":feature-pdp-api"))
+    implementation(project(":feature-shoppingcart"))
+    implementation(project(":feature-shoppingcart-api"))
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -67,6 +85,7 @@ dependencies {
 
     // Room
     implementation(libs.room.core)
+    implementation(project(":core-model"))
     ksp(libs.room.compiler)
 
     // Dagger

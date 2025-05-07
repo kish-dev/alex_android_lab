@@ -1,12 +1,11 @@
 package alex.android.lab.data.mapper
 
-import com.example.core_db.data.model.ProductDbModel
-import com.example.core_db_api.domain.entities.Product
+import com.example.core_model.domain.Product
 import javax.inject.Inject
 
 internal class ProductMapper @Inject constructor() {
 
-    fun mapDbModelToEntity(dbModel: ProductDbModel): Product =
+    fun mapDbModelToEntity(dbModel: com.example.core_model.data.db.ProductDbModel): Product =
         Product(
             guid = dbModel.guid,
             image = dbModel.image,
@@ -19,8 +18,8 @@ internal class ProductMapper @Inject constructor() {
             viewCount = dbModel.viewCount
         )
 
-    fun mapEntityToDbModel(product: Product): ProductDbModel =
-        ProductDbModel(
+    fun mapEntityToDbModel(product: Product): com.example.core_model.data.db.ProductDbModel =
+        com.example.core_model.data.db.ProductDbModel(
             guid = product.guid,
             image = product.image,
             name = product.name,

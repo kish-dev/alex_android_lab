@@ -1,6 +1,6 @@
 package com.example.core_db.di
 
-import com.example.core_db_api.DbApi
+import com.example.core_db_api.DbProvideApi
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,16 +9,13 @@ import javax.inject.Singleton
     dependencies = [DbDeps::class],
     modules = [DbModule::class]
 )
-internal interface DbComponent {
+internal interface DbComponent : DbProvideApi {
 
     companion object {
         fun initAndGet(dependencies: DbDeps): DbComponent {
             return DaggerDbComponent.factory().create(dependencies)
         }
     }
-
-    //тут не должно быть provides, оно уже есть в AppApiModule
-    fun provideDbApi(): DbApi
 
     @Component.Factory
     interface Factory {

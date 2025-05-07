@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(project(":module-injector"))
+    implementation(project(":core-model"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

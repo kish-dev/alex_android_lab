@@ -1,9 +1,8 @@
 package com.example.core_db_api
 
-import com.example.core_db_api.domain.entities.Product
-import com.example.module_injector.BaseAPI
+import com.example.core_model.domain.Product
 
-interface DbApi : BaseAPI {
+interface DbApi {
 
     suspend fun addProduct(product: Product)
 

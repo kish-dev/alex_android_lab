@@ -1,6 +1,6 @@
 package com.example.core_db.data.db
 
-import com.example.core_db.data.model.ProductDbModel
+import com.example.core_model.data.db.ProductDbModel
 import android.content.Context
 import androidx.room.AutoMigration
 import androidx.room.Database

@@ -3,7 +3,7 @@ package com.example.core_db
 import alex.android.lab.data.mapper.ProductMapper
 import com.example.core_db.data.db.ProductsDao
 import com.example.core_db_api.DbApi
-import com.example.core_db_api.domain.entities.Product
+import com.example.core_model.domain.Product
 import javax.inject.Inject
 
 internal class DbApiImpl @Inject constructor(

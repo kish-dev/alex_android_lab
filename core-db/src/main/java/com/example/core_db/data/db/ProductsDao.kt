@@ -1,6 +1,6 @@
 package com.example.core_db.data.db
 
-import com.example.core_db.data.model.ProductDbModel
+import com.example.core_model.data.db.ProductDbModel
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

@@ -42,6 +42,8 @@ dependencies {
     implementation(project(":module-injector"))
     implementation(project(":core-db-api"))
 
+    implementation(project(":core-model"))
+
     implementation(libs.room.core)
     ksp(libs.room.compiler)
 

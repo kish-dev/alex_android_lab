@@ -4,45 +4,46 @@ import alex.android.lab.R
 import alex.android.lab.app.di.ApplicationComponent
 import alex.android.lab.databinding.ActivityMainBinding
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.core_navigation.NavigationProvider
-import com.example.feature_pdp.presentation.view.PDPFragment
-import com.example.feature_pdp_api.FeaturePDPApi
+import com.example.core_navigation_api.FragmentLauncher
+import com.example.core_navigation_api.NavigationApi
 import com.example.feature_products_api.FeatureProductsApi
 import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import com.github.terrakok.cicerone.androidx.FragmentScreen
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val navigator = AppNavigator(this, R.id.fragmentContainer)
+    private val navigator by lazy {
+        AppNavigator(this, R.id.fragmentContainer, supportFragmentManager)
+    }
 
-//    @Inject
-//    lateinit var navigationProvider: NavigationProvider
+    @Inject
+    lateinit var navigationApi: NavigationApi
+
     @Inject
     lateinit var featureProductsApi: FeatureProductsApi
 
-    @Inject
-    lateinit var router: Router
+    private val fragmentLauncher: FragmentLauncher by lazy {
+        navigationApi.provideFragmentLauncher()
+    }
 
-    @Inject
-    lateinit var navigatorHolder: NavigatorHolder
+    private val navigatorHolder: NavigatorHolder by lazy {
+        navigationApi.provideNavigatorHolder()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationComponent.get().inject(this)
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-//            navigationProvider.openProductList()
             val fragment = featureProductsApi.provideFragment()
-            router.navigateTo(FragmentScreen { fragment })
+            fragmentLauncher.openProductsFragment(fragment)
         }
     }
 
@@ -54,14 +55,5 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         navigatorHolder.removeNavigator()
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 0) {
-            super.onBackPressed()
-        } else {
-            router.exit()
-//            navigationProvider.goBack()
-        }
     }
 }

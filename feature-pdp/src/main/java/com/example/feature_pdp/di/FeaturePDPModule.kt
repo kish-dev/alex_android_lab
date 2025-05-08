@@ -31,5 +31,10 @@ interface FeaturePDPModule {
         fun providePDPInteractor(impl: PDPInteractorImpl): PDPInteractor {
             return impl
         }
+
+        @Provides
+        fun providePDPFragment(): (String) -> Fragment = { guid ->
+            PDPFragment.newInstance(guid)
+        }
     }
 }

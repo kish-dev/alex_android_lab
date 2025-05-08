@@ -39,9 +39,7 @@ dependencies {
 
     implementation(project(":feature-products-api"))
     implementation(project(":feature-pdp-api"))
-    implementation(project(":feature-pdp"))
     implementation(project(":feature-shoppingcart-api"))
-
 
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)

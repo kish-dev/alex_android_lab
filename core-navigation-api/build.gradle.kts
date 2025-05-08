@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.core_navigation"
+    namespace = "com.example.core_navigation_api"
     compileSdk = 35
 
     defaultConfig {
@@ -34,14 +33,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":module-injector"))
+
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.cicerone)
-
-    // Dagger
-    implementation(libs.dagger.core)
-    ksp(libs.dagger.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

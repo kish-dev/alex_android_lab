@@ -5,5 +5,5 @@ import com.example.module_injector.BaseAPI
 
 interface FeaturePDPApi : BaseAPI {
 
-//    fun provideFragment(guid: String): Fragment
+    fun provideFragment(): (String) -> Fragment
 }

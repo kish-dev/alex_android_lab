@@ -11,8 +11,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppApiModule::class,
-        AppDepsModule::class,
-        NavigationModule::class
+        AppDepsModule::class
     ]
 )
 internal interface ApplicationComponent {

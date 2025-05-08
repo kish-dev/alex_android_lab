@@ -14,12 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.core_model.domain.ProductState
 import com.example.core_model.presentation.ProductInListVO
-import com.example.core_navigation.NavigationProvider
+import com.example.core_navigation_api.FragmentLauncher
 import com.example.core_utils.adapter.ProductsAdapter
 import com.example.core_utils.viewModel.ViewModelFactory
+import com.example.feature_pdp_api.FeaturePDPApi
 import com.example.feature_products.databinding.FragmentProductsBinding
 import com.example.feature_products.di.FeatureProductsComponentHolder
 import com.example.feature_products.presentation.viewModel.ProductsViewModel
+import com.example.feature_shoppingcart_api.FeatureShoppingCartApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,10 +32,16 @@ class ProductsFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding == null")
 
     @Inject
-    lateinit var navigationProvider: NavigationProvider
+    lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var fragmentLauncher: FragmentLauncher
+
+    @Inject
+    lateinit var featureShoppingCartApi: FeatureShoppingCartApi
+
+    @Inject
+    lateinit var featurePDPApi: FeaturePDPApi
 
     private lateinit var viewModel: ProductsViewModel
 
@@ -118,7 +126,8 @@ class ProductsFragment : Fragment() {
                 override fun onProductClick(product: ProductInListVO) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.changeViewCount(product)
-                        navigationProvider.openProductDetails(product.guid)
+                        val fragment = featurePDPApi.provideFragment()(product.guid)
+                        fragmentLauncher.openPDPFragment(fragment)
                     }
                 }
             }
@@ -137,7 +146,8 @@ class ProductsFragment : Fragment() {
 
     private fun setupOnShoppingCartClickListener() {
         binding.shoppingCartFAB.setOnClickListener {
-            navigationProvider.openShoppingCart()
+            val fragment = featureShoppingCartApi.provideFragment()
+            fragmentLauncher.openShoppingCartFragment(fragment)
         }
     }
 

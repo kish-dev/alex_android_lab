@@ -1,5 +1,6 @@
 package com.example.feature_shoppingcart.di
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.example.core_utils.viewModel.ViewModelKey
@@ -34,6 +35,7 @@ interface FeatureShoppingCartModule {
 
         @Provides
         fun provideShoppingCartFragment(): Fragment {
+            Log.d("LOG_TAG", "provideShoppingCartFragment in FeatureShoppingCartModule")
             return ShoppingCartFragment.newInstance()
         }
     }

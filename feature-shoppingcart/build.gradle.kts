@@ -38,8 +38,11 @@ android {
 
 dependencies {
     implementation(project(":module-injector"))
-    implementation(project(":feature-shoppingcart-api"))
+
     implementation(project(":core-navigation-api"))
+    implementation(project(":feature-pdp-api"))
+
+    implementation(project(":feature-shoppingcart-api"))
 
     implementation(project(":core-db-api"))
     implementation(project(":core-network-api"))

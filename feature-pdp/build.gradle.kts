@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(project(":module-injector"))
+
     implementation(project(":core-navigation-api"))
 
     implementation(project(":feature-pdp-api"))

@@ -48,6 +48,7 @@ ksp {
 
 dependencies {
     implementation(project(":module-injector"))
+
     implementation(project(":core-navigation"))
     implementation(project(":core-navigation-api"))
 

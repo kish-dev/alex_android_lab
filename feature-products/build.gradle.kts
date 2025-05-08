@@ -38,9 +38,20 @@ android {
 
 dependencies {
     implementation(project(":module-injector"))
+
     implementation(project(":core-navigation-api"))
+    implementation(project(":feature-pdp-api"))
+    implementation(project(":feature-shoppingcart-api"))
+
+
+    // Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.cicerone)
 
     implementation(project(":feature-products-api"))
+    implementation(project(":feature-pdp-api"))
+    implementation(project(":feature-shoppingcart-api"))
 
     implementation(project(":core-db-api"))
     implementation(project(":core-network-api"))

@@ -14,9 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.core_model.domain.ProductState
 import com.example.core_model.presentation.ProductInListVO
-import com.example.core_navigation.NavigationProvider
+import com.example.core_navigation_api.FragmentLauncher
 import com.example.core_utils.adapter.ProductsAdapter
 import com.example.core_utils.viewModel.ViewModelFactory
+import com.example.feature_pdp_api.FeaturePDPApi
 import com.example.feature_shoppingcart.databinding.FragmentShoppingCartBinding
 import com.example.feature_shoppingcart.di.FeatureShoppingCartComponentHolder
 import com.example.feature_shoppingcart.presentation.viewModel.ShoppingCartViewModel
@@ -30,10 +31,13 @@ class ShoppingCartFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentShoppingCartBinding == null")
 
     @Inject
-    lateinit var navigationProvider: NavigationProvider
+    lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var fragmentLauncher: FragmentLauncher
+
+    @Inject
+    lateinit var featurePDPApi: FeaturePDPApi
 
     private lateinit var viewModel: ShoppingCartViewModel
 
@@ -118,7 +122,8 @@ class ShoppingCartFragment : Fragment() {
                 override fun onProductClick(product: ProductInListVO) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.changeViewCount(product)
-                        navigationProvider.openProductDetails(product.guid)
+                        val fragment = featurePDPApi.provideFragment()(product.guid)
+                        fragmentLauncher.openPDPFragment(fragment)
                     }
                 }
             }

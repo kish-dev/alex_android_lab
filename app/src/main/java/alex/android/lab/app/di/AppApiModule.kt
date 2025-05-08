@@ -5,6 +5,9 @@ import android.content.Context
 import com.example.core_db.di.DbComponentHolder
 import com.example.core_db.di.DbDeps
 import com.example.core_db_api.DbProvideApi
+import com.example.core_navigation.di.NavigationComponentHolder
+import com.example.core_navigation.di.NavigationDeps
+import com.example.core_navigation_api.NavigationApi
 import com.example.core_network.di.NetworkComponentHolder
 import com.example.core_network.di.NetworkDeps
 import com.example.core_network_api.NetworkProvideApi
@@ -58,5 +61,11 @@ class AppApiModule {
     fun provideShoppingCartFeature(dependencies: FeatureShoppingCartDeps): FeatureShoppingCartApi {
         FeatureShoppingCartComponentHolder.init(dependencies)
         return FeatureShoppingCartComponentHolder.get()
+    }
+
+    @Provides
+    fun provideNavigationApi(dependencies: NavigationDeps): NavigationApi {
+        NavigationComponentHolder.init(dependencies)
+        return NavigationComponentHolder.get()
     }
 }

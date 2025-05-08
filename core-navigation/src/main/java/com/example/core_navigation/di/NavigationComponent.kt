@@ -14,10 +14,6 @@ import javax.inject.Singleton
 )
 internal interface NavigationComponent : NavigationApi {
 
-    override fun provideRouter(): Router
-    override fun provideNavigatorHolder(): NavigatorHolder
-    override fun provideFragmentLauncher(): FragmentLauncher
-
     companion object {
         fun initAndGet(dependencies: NavigationDeps): NavigationComponent {
             return DaggerNavigationComponent.factory().create(dependencies)

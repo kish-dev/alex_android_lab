@@ -5,36 +5,32 @@ import com.example.core_navigation_api.FragmentLauncher
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class NavigationModule {
+abstract class NavigationModule {
 
-    private val cicerone: Cicerone<Router> = Cicerone.create()
-
-//    @Provides
-//    @Singleton
-//    fun provideNavigationApi(impl: NavigationApiImpl): NavigationApi {
-//        return impl
-//    }
-
-    @Provides
     @Singleton
-    fun provideFragmentLauncher(impl: FragmentLauncherImpl): FragmentLauncher {
-        return impl
-    }
+    @Binds
+    abstract fun bindFragmentLauncher(impl: FragmentLauncherImpl): FragmentLauncher
 
-    @Provides
-    @Singleton
-    fun provideRouter(): Router {
-        return cicerone.router
-    }
+    companion object {
 
-    @Provides
-    @Singleton
-    fun provideNavigatorHolder(): NavigatorHolder {
-        return cicerone.getNavigatorHolder()
+        private val cicerone: Cicerone<Router> = Cicerone.create()
+
+        @Provides
+        @Singleton
+        fun provideRouter(): Router {
+            return cicerone.router
+        }
+
+        @Provides
+        @Singleton
+        fun provideNavigatorHolder(): NavigatorHolder {
+            return cicerone.getNavigatorHolder()
+        }
     }
 }

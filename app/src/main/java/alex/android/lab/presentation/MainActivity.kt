@@ -23,9 +23,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var navigationApi: NavigationApi
 
-    @Inject
-    lateinit var featureProductsApi: FeatureProductsApi
-
     private val fragmentLauncher: FragmentLauncher by lazy {
         navigationApi.provideFragmentLauncher()
     }
@@ -33,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     private val navigatorHolder: NavigatorHolder by lazy {
         navigationApi.provideNavigatorHolder()
     }
+
+    @Inject
+    lateinit var featureProductsApi: FeatureProductsApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationComponent.get().inject(this)

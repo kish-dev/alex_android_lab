@@ -1,6 +1,8 @@
 package com.example.core_network_api
 
-interface NetworkApi {
+import com.example.module_injector.BaseAPI
 
-    suspend fun syncProductsWithApi()
+interface NetworkApi : BaseAPI {
+
+    fun getNetwork(): Network
 }

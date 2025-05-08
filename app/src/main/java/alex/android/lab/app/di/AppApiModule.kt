@@ -4,13 +4,13 @@ import alex.android.lab.app.LabApplication
 import android.content.Context
 import com.example.core_db.di.DbComponentHolder
 import com.example.core_db.di.DbDeps
-import com.example.core_db_api.DbProvideApi
+import com.example.core_db_api.DbApi
 import com.example.core_navigation.di.NavigationComponentHolder
 import com.example.core_navigation.di.NavigationDeps
 import com.example.core_navigation_api.NavigationApi
 import com.example.core_network.di.NetworkComponentHolder
 import com.example.core_network.di.NetworkDeps
-import com.example.core_network_api.NetworkProvideApi
+import com.example.core_network_api.NetworkApi
 import com.example.feature_pdp.di.FeaturePDPComponentHolder
 import com.example.feature_pdp.di.FeaturePDPDeps
 import com.example.feature_pdp_api.FeaturePDPApi
@@ -34,13 +34,13 @@ class AppApiModule {
     }
 
     @Provides
-    fun provideDb(dependencies: DbDeps): DbProvideApi {
+    fun provideDb(dependencies: DbDeps): DbApi {
         DbComponentHolder.init(dependencies)
         return DbComponentHolder.get()
     }
 
     @Provides
-    fun provideNetwork(dependencies: NetworkDeps): NetworkProvideApi {
+    fun provideNetwork(dependencies: NetworkDeps): NetworkApi {
         NetworkComponentHolder.init(dependencies)
         return NetworkComponentHolder.get()
     }

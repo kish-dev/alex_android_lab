@@ -2,14 +2,14 @@ package alex.android.lab.app.di
 
 import android.content.Context
 import com.example.core_db.di.DbDeps
+import com.example.core_db_api.Db
 import com.example.core_db_api.DbApi
-import com.example.core_db_api.DbProvideApi
 import com.example.core_navigation.di.NavigationDeps
 import com.example.core_navigation_api.FragmentLauncher
 import com.example.core_navigation_api.NavigationApi
 import com.example.core_network.di.NetworkDeps
+import com.example.core_network_api.Network
 import com.example.core_network_api.NetworkApi
-import com.example.core_network_api.NetworkProvideApi
 import com.example.feature_pdp.di.FeaturePDPDeps
 import com.example.feature_pdp_api.FeaturePDPApi
 import com.example.feature_products.di.FeatureProductsDeps
@@ -34,23 +34,23 @@ class AppDepsModule {
     @Provides
     fun provideNetworkDeps(
         context: Context,
-        db: DbProvideApi,
+        dbApi: DbApi,
     ): NetworkDeps = object : NetworkDeps {
         override val context: Context = context
-        override val db: DbApi = db.getDbApi()
+        override val db: Db = dbApi.getDb()
     }
 
     @Singleton
     @Provides
     fun provideFeatureProductsDeps(
-        apiService: NetworkProvideApi,
-        db: DbProvideApi,
+        networkApi: NetworkApi,
+        dbApi: DbApi,
         navigationApi: NavigationApi,
         pdpApi: FeaturePDPApi,
         shoppingCartApi: FeatureShoppingCartApi,
     ): FeatureProductsDeps = object : FeatureProductsDeps {
-        override val apiService: NetworkApi = apiService.getNetworkApi()
-        override val db: DbApi = db.getDbApi()
+        override val apiService: Network = networkApi.getNetwork()
+        override val db: Db = dbApi.getDb()
         override val fragmentLauncher: FragmentLauncher = navigationApi.provideFragmentLauncher()
         override val pdpApi: FeaturePDPApi = pdpApi
         override val shoppingCartApi: FeatureShoppingCartApi = shoppingCartApi
@@ -59,21 +59,21 @@ class AppDepsModule {
     @Singleton
     @Provides
     fun provideFeaturePDPDeps(
-        db: DbProvideApi,
+        dbApi: DbApi,
     ): FeaturePDPDeps = object : FeaturePDPDeps {
-        override val db: DbApi = db.getDbApi()
+        override val db: Db = dbApi.getDb()
     }
 
     @Singleton
     @Provides
     fun provideFeatureShoppingCartDeps(
-        apiService: NetworkProvideApi,
-        db: DbProvideApi,
+        networkApi: NetworkApi,
+        dbApi: DbApi,
         navigationApi: NavigationApi,
         pdpApi: FeaturePDPApi,
     ): FeatureShoppingCartDeps = object : FeatureShoppingCartDeps {
-        override val apiService: NetworkApi = apiService.getNetworkApi()
-        override val db: DbApi = db.getDbApi()
+        override val apiService: Network = networkApi.getNetwork()
+        override val db: Db = dbApi.getDb()
         override val fragmentLauncher: FragmentLauncher = navigationApi.provideFragmentLauncher()
         override val pdpApi: FeaturePDPApi = pdpApi
     }

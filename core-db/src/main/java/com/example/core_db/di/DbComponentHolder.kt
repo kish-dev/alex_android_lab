@@ -1,9 +1,9 @@
 package com.example.core_db.di
 
-import com.example.core_db_api.DbProvideApi
+import com.example.core_db_api.DbApi
 import com.example.module_injector.ComponentHolder
 
-object DbComponentHolder : ComponentHolder<DbProvideApi, DbDeps> {
+object DbComponentHolder : ComponentHolder<DbApi, DbDeps> {
     private var dbComponent: DbComponent? = null
 
     override fun init(dependencies: DbDeps) {
@@ -16,7 +16,7 @@ object DbComponentHolder : ComponentHolder<DbProvideApi, DbDeps> {
         }
     }
 
-    override fun get(): DbProvideApi = getComponent()
+    override fun get(): DbApi = getComponent()
 
     private fun getComponent(): DbComponent {
         checkNotNull(dbComponent) { "DbComponent was not initialized!" }

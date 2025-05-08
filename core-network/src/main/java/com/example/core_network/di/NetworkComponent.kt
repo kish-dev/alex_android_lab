@@ -1,6 +1,6 @@
 package com.example.core_network.di
 
-import com.example.core_network_api.NetworkProvideApi
+import com.example.core_network_api.NetworkApi
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,7 +9,7 @@ import javax.inject.Singleton
     dependencies = [NetworkDeps::class],
     modules = [NetworkModule::class]
 )
-internal interface NetworkComponent : NetworkProvideApi {
+internal interface NetworkComponent : NetworkApi {
 
     companion object {
         fun initAndGet(dependencies: NetworkDeps): NetworkComponent {

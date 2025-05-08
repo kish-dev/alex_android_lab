@@ -1,14 +1,14 @@
 package com.example.feature_products.data
 
-import com.example.core_db_api.DbApi
+import com.example.core_db_api.Db
 import com.example.core_model.domain.Product
-import com.example.core_network_api.NetworkApi
+import com.example.core_network_api.Network
 import com.example.feature_products.domain.ProductsRepository
 import javax.inject.Inject
 
 class ProductsRepositoryImpl @Inject constructor(
-    private val apiService: NetworkApi,
-    private val db: DbApi,
+    private val apiService: Network,
+    private val db: Db,
 ) : ProductsRepository {
     override suspend fun syncProductsWithApi() {
         apiService.syncProductsWithApi()

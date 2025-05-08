@@ -1,9 +1,9 @@
 package com.example.core_network.di
 
-import com.example.core_network_api.NetworkProvideApi
+import com.example.core_network_api.NetworkApi
 import com.example.module_injector.ComponentHolder
 
-object NetworkComponentHolder : ComponentHolder<NetworkProvideApi, NetworkDeps> {
+object NetworkComponentHolder : ComponentHolder<NetworkApi, NetworkDeps> {
     private var networkComponent: NetworkComponent? = null
 
     override fun init(dependencies: NetworkDeps) {
@@ -16,7 +16,7 @@ object NetworkComponentHolder : ComponentHolder<NetworkProvideApi, NetworkDeps> 
         }
     }
 
-    override fun get(): NetworkProvideApi = getComponent() as NetworkProvideApi
+    override fun get(): NetworkApi = getComponent() as NetworkApi
 
     private fun getComponent(): NetworkComponent {
         checkNotNull(networkComponent) { "NetworkComponent was not initialized!" }

@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var navigationApi: NavigationApi
 
+    //TODO: не уверен что хорошее решение через lazy получать эти переменные для использования
+
     private val fragmentLauncher: FragmentLauncher by lazy {
         navigationApi.provideFragmentLauncher()
     }
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val navigatorHolder: NavigatorHolder by lazy {
         navigationApi.provideNavigatorHolder()
     }
+
 
     @Inject
     lateinit var featureProductsApi: FeatureProductsApi
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
+            //TODO: получаю тут первый фрагмент который должен быть открыт
             val fragment = featureProductsApi.provideFragment()
             fragmentLauncher.openProductsFragment(fragment)
         }

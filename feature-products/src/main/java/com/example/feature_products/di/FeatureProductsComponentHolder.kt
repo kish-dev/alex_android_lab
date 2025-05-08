@@ -16,12 +16,16 @@ object FeatureProductsComponentHolder : ComponentHolder<FeatureProductsApi, Feat
         }
     }
 
-    override fun get(): FeatureProductsApi = getComponent() as FeatureProductsApi
+    override fun get(): FeatureProductsApi = getComponent()
 
     internal fun getComponent(): FeatureProductsComponent {
         checkNotNull(featureProductsComponent) { "FeatureProductsComponent was not initialized!" }
         return featureProductsComponent!!
     }
+
+    //TODO: во всех ComponentHolder модулей есть метод "reset()", но я не знаю как правильно его использовать,
+    // потому что на других примерах видел его вызов только в активити в методах "onPause()",
+    // и кажется если много раз открывать фрагменты, то у меня утечка памяти!
 
     override fun reset() {
         featureProductsComponent = null

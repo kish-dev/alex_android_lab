@@ -11,6 +11,11 @@ class FragmentLauncherImpl @Inject constructor() : FragmentLauncher {
     @Inject
     lateinit var router: Router
 
+    //TODO: во все фрагменты поставляется этот "FragmentLauncher", через него запускаются другие фрагменты
+    // изначально я хотел, чтобы здесь я получал фрагменты самостоятельно через api мои фич-модулей,
+    // но тогда я получаю циклическую зависимость между navigationApi и featureApi.
+    // Это решение с навигацией совсем плохое, но это лучшее что я смог придумать чтобы работало.
+
     override fun openProductsFragment(fragment: Fragment) {
         router.newRootScreen(FragmentScreen { fragment })
     }

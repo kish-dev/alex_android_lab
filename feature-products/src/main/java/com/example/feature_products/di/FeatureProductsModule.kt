@@ -32,6 +32,8 @@ interface FeatureProductsModule {
             return impl
         }
 
+
+        //TODO: Здесь я предоставляю фрагмент для моего api-метода по получению фрагмента
         @Provides
         fun provideProductsFragment(): Fragment {
             return ProductsFragment.newInstance()

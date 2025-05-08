@@ -13,7 +13,6 @@ import dagger.Component
 internal interface FeatureProductsComponent : FeatureProductsApi {
 
     fun inject(productsFragment: ProductsFragment)
-//    override fun provideFragment(): Fragment
 
     companion object {
         fun initAndGet(dependencies: FeatureProductsDeps): FeatureProductsComponent {

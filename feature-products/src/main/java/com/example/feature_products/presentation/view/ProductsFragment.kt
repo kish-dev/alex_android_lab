@@ -34,6 +34,11 @@ class ProductsFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    // TODO: во все фрагменты я вношу апи других фьюч, чтобы получать через них фрагменты
+    //  и затем обращаться к "FragmentLauncher"
+    //  я не уверен что вообще правильно зависеть от апи других фрагментов,
+    //  мне хотелось бы зависеть только от модуля навигации, чтобы она получала фрагменты сама и делала все под капотом
+
     @Inject
     lateinit var fragmentLauncher: FragmentLauncher
 
@@ -126,6 +131,9 @@ class ProductsFragment : Fragment() {
                 override fun onProductClick(product: ProductInListVO) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.changeViewCount(product)
+
+                        // TODO: здесь я получаю фрагмент из другой фьючи и отдаю его в навигацию
+                        //  обрати внимание как мне приходится передавать "guid"
                         val fragment = featurePDPApi.provideFragment()(product.guid)
                         fragmentLauncher.openPDPFragment(fragment)
                     }

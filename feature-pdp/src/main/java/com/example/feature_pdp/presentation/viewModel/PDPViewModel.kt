@@ -4,8 +4,8 @@ package com.example.feature_pdp.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_model.domain.ProductState
+import com.example.core_model.domain.toVO
 import com.example.core_model.presentation.ProductInListVO
-import com.example.core_model.presentation.toVO
 import com.example.feature_pdp.domain.PDPInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers

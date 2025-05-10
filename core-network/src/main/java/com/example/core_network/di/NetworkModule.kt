@@ -3,9 +3,9 @@ package com.example.core_network.di
 import android.content.Context
 import com.example.core_network.NetworkApiImpl
 import com.example.core_network.NetworkImpl
-import com.example.core_network.data.network.ApiFactory
-import com.example.core_network.data.network.ApiService
-import com.example.core_network.data.network.ConnectionManager
+import com.example.core_network.data.ApiFactory
+import com.example.core_network.data.ApiService
+import com.example.core_network.data.ConnectionManager
 import com.example.core_network_api.Network
 import com.example.core_network_api.NetworkApi
 import dagger.Binds

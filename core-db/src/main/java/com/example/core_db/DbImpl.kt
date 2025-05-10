@@ -1,37 +1,28 @@
 package com.example.core_db
 
-import alex.android.lab.data.mapper.ProductMapper
-import com.example.core_db.data.db.ProductsDao
+import com.example.core_db.data.ProductsDao
 import com.example.core_db_api.Db
-import com.example.core_model.domain.Product
+import com.example.core_model.data.db.ProductDbModel
 import javax.inject.Inject
 
 internal class DbImpl @Inject constructor(
     private val productsDao: ProductsDao,
-    private val mapper: ProductMapper,
 ) : Db {
 
-    override suspend fun addProduct(product: Product) {
-        productsDao.addProduct(
-            mapper.mapEntityToDbModel(product)
-        )
+    override suspend fun addProduct(product: ProductDbModel) {
+        productsDao.addProduct(product)
     }
 
-    override suspend fun getProducts(): List<Product> {
-        return productsDao.getProducts().map { productDbModel ->
-            mapper.mapDbModelToEntity(productDbModel)
-        }
+    override suspend fun getProducts(): List<ProductDbModel> {
+        return productsDao.getProducts()
     }
 
-    override suspend fun getProductsInCart(): List<Product> {
-        return productsDao.getProductsInCart().map { productDbModel ->
-            mapper.mapDbModelToEntity(productDbModel)
-        }
+    override suspend fun getProductsInCart(): List<ProductDbModel> {
+        return productsDao.getProductsInCart()
     }
 
-    override suspend fun getProductById(guid: String): Product {
-        val dbModel = checkNotNull(productsDao.getProductById(guid))
-        return mapper.mapDbModelToEntity(dbModel)
+    override suspend fun getProductById(guid: String): ProductDbModel {
+        return checkNotNull(productsDao.getProductById(guid))
     }
 
     override suspend fun updateProductViewCount(guid: String, newViewCount: Int) {

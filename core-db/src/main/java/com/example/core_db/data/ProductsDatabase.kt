@@ -1,4 +1,4 @@
-package com.example.core_db.data.db
+package com.example.core_db.data
 
 import android.content.Context
 import androidx.room.AutoMigration

@@ -1,16 +1,16 @@
 package com.example.core_db_api
 
-import com.example.core_model.domain.Product
+import com.example.core_model.data.db.ProductDbModel
 
 interface Db {
 
-    suspend fun addProduct(product: Product)
+    suspend fun addProduct(product: ProductDbModel)
 
-    suspend fun getProducts(): List<Product>
+    suspend fun getProducts(): List<ProductDbModel>
 
-    suspend fun getProductsInCart(): List<Product>
+    suspend fun getProductsInCart(): List<ProductDbModel>
 
-    suspend fun getProductById(guid: String): Product
+    suspend fun getProductById(guid: String): ProductDbModel
 
     suspend fun updateProductViewCount(guid: String, newViewCount: Int)
 

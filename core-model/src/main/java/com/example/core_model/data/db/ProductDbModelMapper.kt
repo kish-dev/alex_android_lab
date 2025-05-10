@@ -1,13 +1,13 @@
-package com.example.core_model.presentation
+package com.example.core_model.data.db
 
 import com.example.core_model.domain.Product
 
-fun Product.toVO(): ProductInListVO {
-    return ProductInListVO(
+fun ProductDbModel.toProduct(): Product {
+    return Product(
         guid,
         image,
         name,
-        "$price ₽",
+        price,
         rating,
         isFavorite,
         isInCart,

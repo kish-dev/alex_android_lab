@@ -34,10 +34,8 @@ class AppDepsModule {
     @Provides
     fun provideNetworkDeps(
         context: Context,
-        dbApi: DbApi,
     ): NetworkDeps = object : NetworkDeps {
         override val context: Context = context
-        override val db: Db = dbApi.getDb()
     }
 
     @Singleton

@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":core-network-api"))
     implementation(project(":core-db-api"))
     implementation(project(":core-model"))
+    implementation(project(":core-utils"))
 
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gsonConverter)

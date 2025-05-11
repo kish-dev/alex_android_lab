@@ -58,6 +58,8 @@ dependencies {
     implementation(project(":core-network"))
     implementation(project(":core-network-api"))
 
+    implementation(project(":core-utils"))
+
     implementation(project(":feature-products"))
     implementation(project(":feature-products-api"))
     implementation(project(":feature-pdp"))

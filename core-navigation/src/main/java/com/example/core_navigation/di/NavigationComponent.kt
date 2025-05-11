@@ -1,10 +1,10 @@
 package com.example.core_navigation.di
 
 import com.example.core_navigation_api.NavigationApi
+import com.example.core_utils.di.ApplicationScope
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScope
 @Component(
     dependencies = [NavigationDeps::class],
     modules = [NavigationModule::class]

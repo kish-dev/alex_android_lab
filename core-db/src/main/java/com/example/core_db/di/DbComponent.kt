@@ -1,10 +1,10 @@
 package com.example.core_db.di
 
 import com.example.core_db_api.DbApi
+import com.example.core_utils.di.ApplicationScope
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScope
 @Component(
     dependencies = [DbDeps::class],
     modules = [DbModule::class]

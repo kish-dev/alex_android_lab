@@ -11,6 +11,7 @@ import com.example.core_navigation_api.NavigationApi
 import com.example.core_network.di.NetworkComponentHolder
 import com.example.core_network.di.NetworkDeps
 import com.example.core_network_api.NetworkApi
+import com.example.core_utils.di.ApplicationScope
 import com.example.feature_pdp.di.FeaturePDPComponentHolder
 import com.example.feature_pdp.di.FeaturePDPDeps
 import com.example.feature_pdp_api.FeaturePDPApi
@@ -22,48 +23,47 @@ import com.example.feature_shoppingcart.di.FeatureShoppingCartDeps
 import com.example.feature_shoppingcart_api.FeatureShoppingCartApi
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class AppApiModule {
 
     @Provides
-    @Singleton
+    @ApplicationScope
     fun provideContext(): Context {
         return LabApplication.appContext
     }
 
-    @Provides
+    @ApplicationScope
     fun provideDb(dependencies: DbDeps): DbApi {
         DbComponentHolder.init(dependencies)
         return DbComponentHolder.get()
     }
 
-    @Provides
+    @ApplicationScope
     fun provideNetwork(dependencies: NetworkDeps): NetworkApi {
         NetworkComponentHolder.init(dependencies)
         return NetworkComponentHolder.get()
     }
 
-    @Provides
+    @ApplicationScope
     fun provideProductsFeature(dependencies: FeatureProductsDeps): FeatureProductsApi {
         FeatureProductsComponentHolder.init(dependencies)
         return FeatureProductsComponentHolder.get()
     }
 
-    @Provides
+    @ApplicationScope
     fun providePDPFeature(dependencies: FeaturePDPDeps): FeaturePDPApi {
         FeaturePDPComponentHolder.init(dependencies)
         return FeaturePDPComponentHolder.get()
     }
 
-    @Provides
+    @ApplicationScope
     fun provideShoppingCartFeature(dependencies: FeatureShoppingCartDeps): FeatureShoppingCartApi {
         FeatureShoppingCartComponentHolder.init(dependencies)
         return FeatureShoppingCartComponentHolder.get()
     }
 
-    @Provides
+    @ApplicationScope
     fun provideNavigationApi(dependencies: NavigationDeps): NavigationApi {
         NavigationComponentHolder.init(dependencies)
         return NavigationComponentHolder.get()

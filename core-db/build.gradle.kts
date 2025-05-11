@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":core-db-api"))
 
     implementation(project(":core-model"))
+    implementation(project(":core-utils"))
 
     implementation(libs.room.core)
     ksp(libs.room.compiler)

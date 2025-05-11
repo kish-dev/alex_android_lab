@@ -98,7 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="84" />
 
-    <com.example.core_utils.CartButtonView
+    <com.example.core_utils.view.CartButtonView
         android:id="@+id/cartButton"
         android:layout_width="0dp"
         android:layout_height="50dp"

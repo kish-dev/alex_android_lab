@@ -1,10 +1,10 @@
 package com.example.core_network.di
 
 import com.example.core_network_api.NetworkApi
+import com.example.core_utils.di.ApplicationScope
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScope
 @Component(
     dependencies = [NetworkDeps::class],
     modules = [NetworkModule::class]

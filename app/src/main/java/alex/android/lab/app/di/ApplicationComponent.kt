@@ -3,11 +3,11 @@ package alex.android.lab.app.di
 import alex.android.lab.app.LabApplication
 import alex.android.lab.presentation.MainActivity
 import android.app.Application
+import com.example.core_utils.di.ApplicationScope
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScope
 @Component(
     modules = [
         AppApiModule::class,

@@ -10,6 +10,7 @@ import com.example.core_navigation_api.NavigationApi
 import com.example.core_network.di.NetworkDeps
 import com.example.core_network_api.Network
 import com.example.core_network_api.NetworkApi
+import com.example.core_utils.di.ApplicationScope
 import com.example.feature_pdp.di.FeaturePDPDeps
 import com.example.feature_pdp_api.FeaturePDPApi
 import com.example.feature_products.di.FeatureProductsDeps
@@ -17,12 +18,11 @@ import com.example.feature_shoppingcart.di.FeatureShoppingCartDeps
 import com.example.feature_shoppingcart_api.FeatureShoppingCartApi
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class AppDepsModule {
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideDbDeps(
         context: Context,
@@ -30,7 +30,7 @@ class AppDepsModule {
         override val context: Context = context
     }
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideNetworkDeps(
         context: Context,
@@ -38,7 +38,7 @@ class AppDepsModule {
         override val context: Context = context
     }
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideFeatureProductsDeps(
         networkApi: NetworkApi,
@@ -54,7 +54,7 @@ class AppDepsModule {
         override val shoppingCartApi: FeatureShoppingCartApi = shoppingCartApi
     }
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideFeaturePDPDeps(
         dbApi: DbApi,
@@ -62,7 +62,7 @@ class AppDepsModule {
         override val db: Db = dbApi.getDb()
     }
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideFeatureShoppingCartDeps(
         networkApi: NetworkApi,
@@ -76,7 +76,7 @@ class AppDepsModule {
         override val pdpApi: FeaturePDPApi = pdpApi
     }
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideNavigationDeps(): NavigationDeps = object : NavigationDeps {}
 }

@@ -7,25 +7,25 @@ import com.example.core_db.data.ProductsDao
 import com.example.core_db.data.ProductsDatabase
 import com.example.core_db_api.Db
 import com.example.core_db_api.DbApi
+import com.example.core_utils.di.ApplicationScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 internal interface DbModule {
 
-    @Singleton
+    @ApplicationScope
     @Binds
     fun provideDbApi(impl: DbApiImpl): DbApi
 
-    @Singleton
+    @ApplicationScope
     @Binds
     fun provideDb(impl: DbImpl): Db
 
     companion object {
 
-        @Singleton
+        @ApplicationScope
         @Provides
         fun provideProductsDao(context: Context): ProductsDao =
             ProductsDatabase.getInstance(context).productsDao()

@@ -8,31 +8,31 @@ import com.example.core_network.data.ApiService
 import com.example.core_network.data.ConnectionManager
 import com.example.core_network_api.Network
 import com.example.core_network_api.NetworkApi
+import com.example.core_utils.di.ApplicationScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 interface NetworkModule {
 
-    @Singleton
+    @ApplicationScope
     @Binds
     fun provideNetworkApi(impl: NetworkApiImpl): NetworkApi
 
-    @Singleton
+    @ApplicationScope
     @Binds
     fun provideNetwork(impl: NetworkImpl): Network
 
     companion object {
 
-        @Singleton
+        @ApplicationScope
         @Provides
         fun provideApiService(): ApiService {
             return ApiFactory.apiService
         }
 
-        @Singleton
+        @ApplicationScope
         @Provides
         fun provideConnectionManager(context: Context): ConnectionManager {
             return ConnectionManager(context)

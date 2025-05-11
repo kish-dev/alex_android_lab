@@ -1,4 +1,4 @@
-package com.example.core_utils
+package com.example.core_utils.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,6 +10,7 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.example.core_utils.R
 
 class CartButtonView @JvmOverloads constructor(
     context: Context,

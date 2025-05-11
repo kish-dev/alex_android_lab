@@ -27,43 +27,43 @@ import dagger.Provides
 @Module
 class AppApiModule {
 
-    @Provides
     @ApplicationScope
+    @Provides
     fun provideContext(): Context {
         return LabApplication.appContext
     }
 
-    @ApplicationScope
+    @Provides
     fun provideDb(dependencies: DbDeps): DbApi {
         DbComponentHolder.init(dependencies)
         return DbComponentHolder.get()
     }
 
-    @ApplicationScope
+    @Provides
     fun provideNetwork(dependencies: NetworkDeps): NetworkApi {
         NetworkComponentHolder.init(dependencies)
         return NetworkComponentHolder.get()
     }
 
-    @ApplicationScope
+    @Provides
     fun provideProductsFeature(dependencies: FeatureProductsDeps): FeatureProductsApi {
         FeatureProductsComponentHolder.init(dependencies)
         return FeatureProductsComponentHolder.get()
     }
 
-    @ApplicationScope
+    @Provides
     fun providePDPFeature(dependencies: FeaturePDPDeps): FeaturePDPApi {
         FeaturePDPComponentHolder.init(dependencies)
         return FeaturePDPComponentHolder.get()
     }
 
-    @ApplicationScope
+    @Provides
     fun provideShoppingCartFeature(dependencies: FeatureShoppingCartDeps): FeatureShoppingCartApi {
         FeatureShoppingCartComponentHolder.init(dependencies)
         return FeatureShoppingCartComponentHolder.get()
     }
 
-    @ApplicationScope
+    @Provides
     fun provideNavigationApi(dependencies: NavigationDeps): NavigationApi {
         NavigationComponentHolder.init(dependencies)
         return NavigationComponentHolder.get()

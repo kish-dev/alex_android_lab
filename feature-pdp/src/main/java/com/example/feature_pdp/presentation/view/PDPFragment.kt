@@ -72,7 +72,10 @@ class PDPFragment : Fragment() {
                     }
 
                     is ProductState.Loaded -> {
-                        binding.progressBarProduct.isVisible = false
+                        with(binding) {
+                            progressBarProduct.isVisible = false
+                            swipeRefresh.isRefreshing = false
+                        }
                         val product = productState.data
                         setupDetailProduct(product)
                         setupOnFavouriteClickListener(product)
@@ -80,7 +83,10 @@ class PDPFragment : Fragment() {
                     }
 
                     is ProductState.Error -> {
-                        binding.progressBarProduct.isVisible = false
+                        with(binding) {
+                            progressBarProduct.isVisible = false
+                            swipeRefresh.isRefreshing = false
+                        }
                         val toastText = productState.error
                         showToast(toastText)
                     }
@@ -125,6 +131,10 @@ class PDPFragment : Fragment() {
             val favouriteIcon = ContextCompat.getDrawable(requireContext(), favouriteResId)
             icFavouriteIV.setImageDrawable(favouriteIcon)
             cartButton.setState(product.inCartCount)
+
+            swipeRefresh.setOnRefreshListener {
+                viewModel.getDetailProduct(guid)
+            }
         }
     }
 

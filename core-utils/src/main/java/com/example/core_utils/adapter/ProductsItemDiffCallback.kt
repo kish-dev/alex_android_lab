@@ -13,7 +13,12 @@ object ProductsItemDiffCallback : DiffUtil.ItemCallback<ProductInListVO>() {
     }
 
     override fun areContentsTheSame(oldItem: ProductInListVO, newItem: ProductInListVO): Boolean {
-        return oldItem == newItem
+        return oldItem.guid == newItem.guid &&
+                oldItem.image == newItem.image &&
+                oldItem.name == newItem.name &&
+                oldItem.price == newItem.price &&
+                oldItem.rating == newItem.rating &&
+                oldItem.inCartCount == newItem.inCartCount
     }
 
     override fun getChangePayload(oldItem: ProductInListVO, newItem: ProductInListVO): Any? {

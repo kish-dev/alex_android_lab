@@ -36,14 +36,7 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
             .build()
         workManager.enqueue(request)
 
-        val workInfo = getWorkInfoFromRequest(request)
-        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-            val json = workInfo.outputData.getString(KEY_OUTPUT_DATA)
-            val type = ProductDbModel::class.java
-            return Gson().fromJson(json, type)
-        } else {
-            throw RuntimeException("${workInfo.outputData.getString(KEY_ERROR)}")
-        }
+        return getWorkerResult(request)
     }
 
     override suspend fun getProductsList(): List<ProductDbModel> {
@@ -54,14 +47,7 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
                 .build()
             workManager.enqueue(request)
 
-            val workInfo = getWorkInfoFromRequest(request)
-            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                val json = workInfo.outputData.getString(KEY_OUTPUT_DATA)
-                val type = object : TypeToken<List<ProductDbModel>>() {}.type
-                return Gson().fromJson(json, type)
-            } else {
-                throw RuntimeException("${workInfo.outputData.getString(KEY_ERROR)}")
-            }
+            return getWorkerResult(request)
         } else {
             throw RuntimeException("${syncProductsRequest.outputData.getString(KEY_ERROR)}")
         }
@@ -75,14 +61,7 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
                 .build()
             workManager.enqueue(request)
 
-            val workInfo = getWorkInfoFromRequest(request)
-            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                val json = workInfo.outputData.getString(KEY_OUTPUT_DATA)
-                val type = object : TypeToken<List<ProductDbModel>>() {}.type
-                return Gson().fromJson(json, type)
-            } else {
-                throw RuntimeException("${workInfo.outputData.getString(KEY_ERROR)}")
-            }
+            return getWorkerResult(request)
         } else {
             throw RuntimeException("${syncProductsRequest.outputData.getString(KEY_ERROR)}")
         }
@@ -92,7 +71,8 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
         val request = OneTimeWorkRequestBuilder<SyncProductsWorker>().build()
         workManager.enqueue(request)
 
-        val workInfo = getWorkInfoFromRequest(request)
+        val workInfo = workManager.getWorkInfoByIdFlow(request.id)
+            .first { checkNotNull(it).state.isFinished }!!
         return workInfo
     }
 
@@ -114,11 +94,17 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
         }
     }
 
-    private suspend fun getWorkInfoFromRequest(request: WorkRequest): WorkInfo {
-        val workInfo = workManager
-            .getWorkInfoByIdFlow(request.id)
+    private suspend inline fun <reified T> getWorkerResult(request: WorkRequest): T {
+        val workInfo = workManager.getWorkInfoByIdFlow(request.id)
             .first { checkNotNull(it).state.isFinished }!!
-        return workInfo
+
+        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+            val json = workInfo.outputData.getString(KEY_OUTPUT_DATA)
+            val returnType = object : TypeToken<T>() {}.type
+            return Gson().fromJson(json, returnType)
+        } else {
+            throw RuntimeException("${workInfo.outputData.getString(KEY_ERROR)}")
+        }
     }
 
     companion object {

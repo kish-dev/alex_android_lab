@@ -7,10 +7,6 @@ class ShoppingCartInteractorImpl @Inject constructor(
     private val shoppingCartRepository: ShoppingCartRepository,
 ) : ShoppingCartInteractor {
 
-    override suspend fun syncProductsWithApi() {
-        shoppingCartRepository.syncProductsWithApi()
-    }
-
     override suspend fun getProductsInCart(): List<Product> {
         return shoppingCartRepository.getProductsInCart()
     }

@@ -36,7 +36,6 @@ class ShoppingCartViewModel @Inject constructor(
             ProductState.Loading()
         }
         viewModelScope.launch(handler + Dispatchers.IO) {
-            shoppingCartInteractor.syncProductsWithApi()
             val products = shoppingCartInteractor.getProductsInCart().map {
                 it.toVO()
             }

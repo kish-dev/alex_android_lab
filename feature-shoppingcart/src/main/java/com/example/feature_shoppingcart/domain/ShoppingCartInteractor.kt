@@ -4,8 +4,6 @@ import com.example.core_model.domain.Product
 
 interface ShoppingCartInteractor {
 
-    suspend fun syncProductsWithApi()
-
     suspend fun getProductsInCart(): List<Product>
 
     suspend fun updateProductViewCount(guid: String, viewCount: Int)

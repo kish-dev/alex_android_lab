@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.feature_products"
+    namespace = "com.example.core_worker_api"
     compileSdk = 35
 
     defaultConfig {
@@ -31,42 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
     implementation(project(":module-injector"))
-
-    implementation(project(":core-navigation-api"))
-    implementation(project(":core-worker-api"))
-    implementation(project(":feature-pdp-api"))
-    implementation(project(":feature-shoppingcart-api"))
-
-
-    // Navigation
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.cicerone)
-
-    implementation(project(":feature-products-api"))
-
-    implementation(project(":core-db-api"))
-
-    implementation(project(":core-utils"))
     implementation(project(":core-model"))
-
-    // Dagger
-    implementation(libs.dagger.core)
-    ksp(libs.dagger.compiler)
-
-    // UI extras
-    implementation(libs.swipe)
-
-    // Lifecycle
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.viewmodel.runtime.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

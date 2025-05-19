@@ -36,7 +36,6 @@ class ProductsViewModel @Inject constructor(
             ProductState.Loading()
         }
         viewModelScope.launch(handler + Dispatchers.IO) {
-            productsInteractor.syncProductsWithApi()
             val products = productsInteractor.getProducts().map {
                 it.toVO()
             }

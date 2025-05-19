@@ -40,12 +40,12 @@ dependencies {
     implementation(project(":module-injector"))
 
     implementation(project(":core-navigation-api"))
+    implementation(project(":core-worker-api"))
     implementation(project(":feature-pdp-api"))
 
     implementation(project(":feature-shoppingcart-api"))
 
     implementation(project(":core-db-api"))
-    implementation(project(":core-network-api"))
 
     implementation(project(":core-utils"))
     implementation(project(":core-model"))

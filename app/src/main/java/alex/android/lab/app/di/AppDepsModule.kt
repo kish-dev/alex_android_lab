@@ -11,6 +11,9 @@ import com.example.core_network.di.NetworkDeps
 import com.example.core_network_api.Network
 import com.example.core_network_api.NetworkApi
 import com.example.core_utils.di.ApplicationScope
+import com.example.core_worker.di.WorkerDeps
+import com.example.core_worker_api.ProductsWorker
+import com.example.core_worker_api.WorkerApi
 import com.example.feature_pdp.di.FeaturePDPDeps
 import com.example.feature_pdp_api.FeaturePDPApi
 import com.example.feature_products.di.FeatureProductsDeps
@@ -41,42 +44,56 @@ class AppDepsModule {
     @ApplicationScope
     @Provides
     fun provideFeatureProductsDeps(
-        networkApi: NetworkApi,
         dbApi: DbApi,
         navigationApi: NavigationApi,
         pdpApi: FeaturePDPApi,
         shoppingCartApi: FeatureShoppingCartApi,
+        workerApi: WorkerApi,
     ): FeatureProductsDeps = object : FeatureProductsDeps {
-        override val apiService: Network = networkApi.getNetwork()
-        override val db: Db = dbApi.getDb()
+        override val db: Db = dbApi.provideDb()
         override val fragmentLauncher: FragmentLauncher = navigationApi.provideFragmentLauncher()
         override val pdpApi: FeaturePDPApi = pdpApi
         override val shoppingCartApi: FeatureShoppingCartApi = shoppingCartApi
+        override val productsWorker: ProductsWorker = workerApi.provideProductsSyncWorker()
     }
 
     @ApplicationScope
     @Provides
     fun provideFeaturePDPDeps(
         dbApi: DbApi,
+        workerApi: WorkerApi,
     ): FeaturePDPDeps = object : FeaturePDPDeps {
-        override val db: Db = dbApi.getDb()
+        override val db: Db = dbApi.provideDb()
+        override val productsWorker: ProductsWorker = workerApi.provideProductsSyncWorker()
     }
 
     @ApplicationScope
     @Provides
     fun provideFeatureShoppingCartDeps(
-        networkApi: NetworkApi,
         dbApi: DbApi,
         navigationApi: NavigationApi,
         pdpApi: FeaturePDPApi,
+        workerApi: WorkerApi,
     ): FeatureShoppingCartDeps = object : FeatureShoppingCartDeps {
-        override val apiService: Network = networkApi.getNetwork()
-        override val db: Db = dbApi.getDb()
+        override val db: Db = dbApi.provideDb()
         override val fragmentLauncher: FragmentLauncher = navigationApi.provideFragmentLauncher()
         override val pdpApi: FeaturePDPApi = pdpApi
+        override val productsWorker: ProductsWorker = workerApi.provideProductsSyncWorker()
     }
 
     @ApplicationScope
     @Provides
     fun provideNavigationDeps(): NavigationDeps = object : NavigationDeps {}
+
+    @ApplicationScope
+    @Provides
+    fun provideWorkerDeps(
+        context: Context,
+        networkApi: NetworkApi,
+        dbApi: DbApi,
+    ): WorkerDeps = object : WorkerDeps {
+        override val context: Context = context
+        override val apiService: Network = networkApi.provideNetwork()
+        override val db: Db = dbApi.provideDb()
+    }
 }

@@ -21,8 +21,8 @@ internal class DbImpl @Inject constructor(
         return productsDao.getProductsInCart()
     }
 
-    override suspend fun getProductById(guid: String): ProductDbModel {
-        return checkNotNull(productsDao.getProductById(guid))
+    override suspend fun getProductById(guid: String): ProductDbModel? {
+        return productsDao.getProductById(guid)
     }
 
     override suspend fun updateProductViewCount(guid: String, newViewCount: Int) {

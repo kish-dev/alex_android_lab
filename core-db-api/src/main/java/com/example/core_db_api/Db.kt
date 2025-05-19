@@ -10,7 +10,7 @@ interface Db {
 
     suspend fun getProductsInCart(): List<ProductDbModel>
 
-    suspend fun getProductById(guid: String): ProductDbModel
+    suspend fun getProductById(guid: String): ProductDbModel?
 
     suspend fun updateProductViewCount(guid: String, newViewCount: Int)
 

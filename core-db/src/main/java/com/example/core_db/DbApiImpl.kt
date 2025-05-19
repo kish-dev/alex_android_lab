@@ -10,7 +10,7 @@ class DbApiImpl @Inject constructor(
     private val db: Db,
 ) : DbApi {
 
-    override fun getDb(): Db {
+    override fun provideDb(): Db {
         return db
     }
 }

@@ -10,7 +10,7 @@ class NetworkApiImpl @Inject constructor(
     private val network: Network,
 ) : NetworkApi {
 
-    override fun getNetwork(): Network {
+    override fun provideNetwork(): Network {
         return network
     }
 }

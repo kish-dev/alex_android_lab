@@ -12,6 +12,9 @@ import com.example.core_network.di.NetworkComponentHolder
 import com.example.core_network.di.NetworkDeps
 import com.example.core_network_api.NetworkApi
 import com.example.core_utils.di.ApplicationScope
+import com.example.core_worker.di.WorkerComponentHolder
+import com.example.core_worker.di.WorkerDeps
+import com.example.core_worker_api.WorkerApi
 import com.example.feature_pdp.di.FeaturePDPComponentHolder
 import com.example.feature_pdp.di.FeaturePDPDeps
 import com.example.feature_pdp_api.FeaturePDPApi
@@ -67,5 +70,11 @@ class AppApiModule {
     fun provideNavigationApi(dependencies: NavigationDeps): NavigationApi {
         NavigationComponentHolder.init(dependencies)
         return NavigationComponentHolder.get()
+    }
+
+    @Provides
+    fun provideWorkerApi(dependencies: WorkerDeps): WorkerApi {
+        WorkerComponentHolder.init(dependencies)
+        return WorkerComponentHolder.get()
     }
 }

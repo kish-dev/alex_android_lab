@@ -4,5 +4,5 @@ import com.example.module_injector.BaseAPI
 
 interface DbApi : BaseAPI {
 
-    fun getDb(): Db
+    fun provideDb(): Db
 }

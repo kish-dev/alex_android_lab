@@ -32,6 +32,6 @@ class NetworkImpl @Inject constructor(
 
     companion object {
 
-        private const val TIMEOUT_RETRY_MILLIS = 5000L
+        private const val TIMEOUT_RETRY_MILLIS = 1000L
     }
 }

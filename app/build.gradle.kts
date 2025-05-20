@@ -49,6 +49,9 @@ ksp {
 dependencies {
     implementation(project(":module-injector"))
 
+    implementation(project(":core-worker"))
+    implementation(project(":core-worker-api"))
+
     implementation(project(":core-navigation"))
     implementation(project(":core-navigation-api"))
 
@@ -73,6 +76,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Worker
+    implementation(libs.work.manager)
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)

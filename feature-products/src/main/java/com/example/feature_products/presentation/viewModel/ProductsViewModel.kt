@@ -1,6 +1,5 @@
 package com.example.feature_products.presentation.viewModel
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_model.domain.ProductState
@@ -37,7 +36,6 @@ class ProductsViewModel @Inject constructor(
             ProductState.Loading()
         }
         viewModelScope.launch(handler + Dispatchers.IO) {
-            productsInteractor.syncProductsWithApi()
             val products = productsInteractor.getProducts().map {
                 it.toVO()
             }

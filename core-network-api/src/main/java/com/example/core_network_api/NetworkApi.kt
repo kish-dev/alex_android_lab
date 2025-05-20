@@ -4,5 +4,5 @@ import com.example.module_injector.BaseAPI
 
 interface NetworkApi : BaseAPI {
 
-    fun getNetwork(): Network
+    fun provideNetwork(): Network
 }

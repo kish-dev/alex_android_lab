@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.core_navigation_api.FragmentLauncher
 import com.example.core_navigation_api.NavigationApi
+import com.example.core_worker_api.WorkerApi
 import com.example.feature_products_api.FeatureProductsApi
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -33,12 +34,15 @@ class MainActivity : AppCompatActivity() {
         navigationApi.provideNavigatorHolder()
     }
 
-
     @Inject
     lateinit var featureProductsApi: FeatureProductsApi
 
+    @Inject
+    lateinit var workerApi: WorkerApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationComponent.get().inject(this)
+        workerApi.provideProductsWorker().schedulePeriodicProductsSync()
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

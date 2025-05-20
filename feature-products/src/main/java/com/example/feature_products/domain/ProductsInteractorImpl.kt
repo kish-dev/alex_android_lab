@@ -7,10 +7,6 @@ class ProductsInteractorImpl @Inject constructor(
     private val productsRepository: ProductsRepository,
 ) : ProductsInteractor {
 
-    override suspend fun syncProductsWithApi() {
-        productsRepository.syncProductsWithApi()
-    }
-
     override suspend fun getProducts(): List<Product> {
         return productsRepository.getProducts()
     }

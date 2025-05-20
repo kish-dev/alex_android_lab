@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":module-injector"))
 
     implementation(project(":core-navigation-api"))
+    implementation(project(":core-worker-api"))
 
     implementation(project(":feature-pdp-api"))
 
@@ -56,6 +57,9 @@ dependencies {
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.viewmodel.runtime.ktx)
+
+    // UI extras
+    implementation(libs.swipe)
 
     // Glide
     implementation(libs.glide.core)

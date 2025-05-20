@@ -54,7 +54,7 @@ class AppDepsModule {
         override val fragmentLauncher: FragmentLauncher = navigationApi.provideFragmentLauncher()
         override val pdpApi: FeaturePDPApi = pdpApi
         override val shoppingCartApi: FeatureShoppingCartApi = shoppingCartApi
-        override val productsWorker: ProductsWorker = workerApi.provideProductsSyncWorker()
+        override val productsWorker: ProductsWorker = workerApi.provideProductsWorker()
     }
 
     @ApplicationScope
@@ -64,7 +64,7 @@ class AppDepsModule {
         workerApi: WorkerApi,
     ): FeaturePDPDeps = object : FeaturePDPDeps {
         override val db: Db = dbApi.provideDb()
-        override val productsWorker: ProductsWorker = workerApi.provideProductsSyncWorker()
+        override val productsWorker: ProductsWorker = workerApi.provideProductsWorker()
     }
 
     @ApplicationScope
@@ -78,7 +78,7 @@ class AppDepsModule {
         override val db: Db = dbApi.provideDb()
         override val fragmentLauncher: FragmentLauncher = navigationApi.provideFragmentLauncher()
         override val pdpApi: FeaturePDPApi = pdpApi
-        override val productsWorker: ProductsWorker = workerApi.provideProductsSyncWorker()
+        override val productsWorker: ProductsWorker = workerApi.provideProductsWorker()
     }
 
     @ApplicationScope

@@ -1,13 +1,16 @@
 package com.example.core_worker
 
-import androidx.work.ExistingPeriodicWorkPolicy
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import androidx.work.workDataOf
 import com.example.core_model.data.db.ProductDbModel
+import com.example.core_worker.workers.AlarmReceiver
 import com.example.core_worker.workers.GetProductWorker
 import com.example.core_worker.workers.GetProductsInCartWorker
 import com.example.core_worker.workers.GetProductsListWorker
@@ -15,18 +18,16 @@ import com.example.core_worker.workers.SyncProductsWorker
 import com.example.core_worker_api.ProductsWorker
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
 
     @Inject
     lateinit var workManager: WorkManager
+
+    @Inject
+    lateinit var context: Context
 
     override suspend fun getProduct(guid: String): ProductDbModel {
         val input = workDataOf(GetProductWorker.KEY_GUID to guid)
@@ -40,30 +41,30 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
     }
 
     override suspend fun getProductsList(): List<ProductDbModel> {
-        val syncProductsRequest = syncProducts()
+        val syncProductWorkInfo = syncProducts()
 
-        if (syncProductsRequest.state == WorkInfo.State.SUCCEEDED) {
+        if (syncProductWorkInfo.state == WorkInfo.State.SUCCEEDED) {
             val request = OneTimeWorkRequestBuilder<GetProductsListWorker>()
                 .build()
             workManager.enqueue(request)
 
             return getWorkerResult(request)
         } else {
-            throw RuntimeException("${syncProductsRequest.outputData.getString(KEY_ERROR)}")
+            throw RuntimeException("${syncProductWorkInfo.outputData.getString(KEY_ERROR)}")
         }
     }
 
     override suspend fun getProductsInCart(): List<ProductDbModel> {
-        val syncProductsRequest = syncProducts()
+        val syncProductWorkInfo = syncProducts()
 
-        if (syncProductsRequest.state == WorkInfo.State.SUCCEEDED) {
+        if (syncProductWorkInfo.state == WorkInfo.State.SUCCEEDED) {
             val request = OneTimeWorkRequestBuilder<GetProductsInCartWorker>()
                 .build()
             workManager.enqueue(request)
 
             return getWorkerResult(request)
         } else {
-            throw RuntimeException("${syncProductsRequest.outputData.getString(KEY_ERROR)}")
+            throw RuntimeException("${syncProductWorkInfo.outputData.getString(KEY_ERROR)}")
         }
     }
 
@@ -77,21 +78,21 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
     }
 
     override fun schedulePeriodicProductsSync() {
-        CoroutineScope(Dispatchers.Default).launch {
-            repeat(3) { index ->
-                val request = PeriodicWorkRequestBuilder<SyncProductsWorker>(
-                    15, TimeUnit.MINUTES
-                ).build()
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
-                workManager.enqueueUniquePeriodicWork(
-                    "product_sync_$index",
-                    ExistingPeriodicWorkPolicy.KEEP,
-                    request
-                )
-
-                delay(TimeUnit.MINUTES.toMillis(5))
-            }
-        }
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + ALARM_INTERVAL_MS,
+            ALARM_INTERVAL_MS,
+            pendingIntent
+        )
     }
 
     private suspend inline fun <reified T> getWorkerResult(request: WorkRequest): T {
@@ -111,5 +112,6 @@ class ProductsWorkerImpl @Inject constructor() : ProductsWorker {
 
         const val KEY_OUTPUT_DATA = "output data from worker"
         const val KEY_ERROR = "error message from worker"
+        private const val ALARM_INTERVAL_MS = 5 * 60 * 1000L
     }
 }

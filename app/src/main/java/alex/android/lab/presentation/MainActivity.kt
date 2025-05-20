@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ApplicationComponent.get().inject(this)
-        workerApi.provideProductsSyncWorker().schedulePeriodicProductsSync()
+        workerApi.provideProductsWorker().schedulePeriodicProductsSync()
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

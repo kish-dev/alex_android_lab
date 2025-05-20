@@ -4,5 +4,5 @@ import com.example.module_injector.BaseAPI
 
 interface WorkerApi : BaseAPI {
 
-    fun provideProductsSyncWorker(): ProductsWorker
+    fun provideProductsWorker(): ProductsWorker
 }

@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.core_model.domain.ProductState
 import com.example.core_model.domain.toVO
 import com.example.core_model.presentation.ProductInListVO
+import com.example.core_utils.di.DispatcherProvider
 import com.example.feature_products.domain.ProductsInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 class ProductsViewModel @Inject constructor(
     private val productsInteractor: ProductsInteractor,
+    private val dispatcher: DispatcherProvider,
 ) : ViewModel() {
 
     private val _products =
@@ -35,7 +36,7 @@ class ProductsViewModel @Inject constructor(
         _products.update {
             ProductState.Loading()
         }
-        viewModelScope.launch(handler + Dispatchers.IO) {
+        viewModelScope.launch(handler + dispatcher.io) {
             val products = productsInteractor.getProducts().map {
                 it.toVO()
             }
@@ -46,7 +47,7 @@ class ProductsViewModel @Inject constructor(
     }
 
     fun changeViewCount(product: ProductInListVO) {
-        viewModelScope.launch(handler + Dispatchers.IO) {
+        viewModelScope.launch(handler + dispatcher.io) {
             productsInteractor.updateProductViewCount(
                 guid = product.guid,
                 viewCount = product.viewCount + COUNT_ADD_ONE
@@ -55,7 +56,7 @@ class ProductsViewModel @Inject constructor(
     }
 
     fun changeInCartCount(guid: String, inCartCount: Int) {
-        viewModelScope.launch(handler + Dispatchers.IO) {
+        viewModelScope.launch(handler + dispatcher.io) {
             productsInteractor.updateProductInCartCount(
                 guid = guid,
                 inCartCount = inCartCount

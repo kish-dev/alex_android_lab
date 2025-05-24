@@ -2,6 +2,8 @@ package com.example.feature_products.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import com.example.core_utils.di.DefaultDispatcherProvider
+import com.example.core_utils.di.DispatcherProvider
 import com.example.core_utils.viewModel.ViewModelKey
 import com.example.feature_products.data.ProductsRepositoryImpl
 import com.example.feature_products.domain.ProductsInteractor
@@ -32,10 +34,14 @@ interface FeatureProductsModule {
             return impl
         }
 
-        //TODO: Здесь я предоставляю фрагмент для моего api-метода по получению фрагмента
         @Provides
         fun provideProductsFragment(): Fragment {
             return ProductsFragment.newInstance()
+        }
+
+        @Provides
+        fun provideDefaultDispatcher(): DispatcherProvider {
+            return DefaultDispatcherProvider()
         }
     }
 }

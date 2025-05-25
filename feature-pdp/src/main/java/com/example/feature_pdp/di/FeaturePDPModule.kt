@@ -32,7 +32,6 @@ interface FeaturePDPModule {
             return impl
         }
 
-        // TODO: здесь я также предоставляю фрагмент для api-метода фрагмента, но делаю это очень плохо
         @Provides
         fun providePDPFragment(): (String) -> Fragment = { guid ->
             PDPFragment.newInstance(guid)
